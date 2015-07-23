@@ -1,0 +1,26 @@
+{
+  "name": "MultitaskGame",
+  "version": "0.0.1",
+  "homepage": "https://github.com/TeamMoscowMule/MultitaskGame",
+  "authors": [
+    "SimoPrG <simeon_petev@hotmail.com>"
+  ],
+  "description": "A multitasking game",
+  "main": "index.html",
+  "keywords": [
+    "multitasking",
+    "multitask",
+    "game"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "kineticjs": "~5.1.0"
+  }
+}
