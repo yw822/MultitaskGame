@@ -1,0 +1,19 @@
+body,
+div {
+  margin: 0;
+  padding: 0;
+}
+#game-table {
+  display: table;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+#game-table .game-table-row {
+  display: table-row;
+}
+#game-table .game-table-row .game-table-cell {
+  display: table-cell;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #000000;
+}

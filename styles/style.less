@@ -1,0 +1,28 @@
+// reset
+body, div {
+  margin: 0;
+  padding:0
+}
+
+@game-width: 300px;
+@game-height: 200px;
+@game-border-width: 1px;
+@game-border-style: solid;
+@game-border-color: #000;
+
+#game-table {
+  display: table;
+  margin: 0 auto;
+  border-collapse: collapse;
+
+  .game-table-row {
+    display: table-row;
+
+    .game-table-cell {
+      display: table-cell;
+      width: @game-width;
+      height: @game-height;
+      border: @game-border-width @game-border-style @game-border-color;
+    }
+  }
+}
