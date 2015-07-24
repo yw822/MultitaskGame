@@ -16,7 +16,6 @@ var game1 = (function (parent) {
     Object.defineProperty(game1, 'update', {
         value: function () {
             // TODO: Implement this method to redraw your canvas/svg
-
             // Delete this line!
             parent.update.call(this);
         }
