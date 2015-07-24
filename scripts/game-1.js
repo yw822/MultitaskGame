@@ -1,7 +1,5 @@
 var game1 = (function (parent) {
     var game1 = Object.create(parent);
-        //board = Object.create({}).init(),
-        //ball = Object.create({}).init();
 
     // When the game is over, please set game1.over = true;
 
