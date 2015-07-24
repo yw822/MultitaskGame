@@ -1,28 +1,47 @@
 var validator = (function () {
-    var validator = {};
+    var validator = {},
+        defaultValueName = 'Value';
 
-    Object.defineProperty(validator, 'validateBoolean', {
+    function isRealNumber(number) {
+        return !isNaN(parseFloat(number)) && isFinite(number);
+    }
+
+    Object.defineProperty(validator, 'validateNotNullAndUndefined', {
         value: function (value, valueName) {
+            valueName = valueName || defaultValueName;
+
+            if (value == undefined) {
+                throw new TypeError(valueName + ' cannot be null and undefined.');
+            }
+        }
+    });
+
+    Object.defineProperty(validator, 'validateIfBoolean', {
+        value: function (value, valueName) {
+            valueName = valueName || defaultValueName;
+
             if (typeof value !== 'boolean') {
                 throw new TypeError(valueName + ' must be a boolean');
             }
         }
     });
 
-    Object.defineProperty(validator, 'validateIfNumber', {
+    Object.defineProperty(validator, 'validateIfRealNumber', {
         value: function (value, valueName) {
-            if (typeof value !== 'number') {
-                throw new Error(valueName + ' must be a number');
+            valueName = valueName || defaultValueName;
+
+            if (isRealNumber(value) === false) {
+                throw new TypeError(valueName + ' must be a real number');
             }
         }
     });
 
-    //I am not sure for this :(
-    Object.defineProperty(validator, 'validateIfHexColor', {
+    Object.defineProperty(validator, 'validateIfString', {
         value: function (value, valueName) {
-            var checkHexFormat  = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/;
-            if (checkHexFormat.(value) == false) {
-                throw new Error(valueName + ' must be a HEX color');
+            valueName = valueName || defaultValueName;
+
+            if (typeof value !== 'string') {
+                throw new Error(valueName + ' must be a string');
             }
         }
     });
