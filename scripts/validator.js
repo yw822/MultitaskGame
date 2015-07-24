@@ -36,6 +36,18 @@ var validator = (function () {
         }
     });
 
+    Object.defineProperty(validator, 'validateIfPositiveNumber', {
+        value: function (value, valueName) {
+            valueName = valueName || defaultValueName;
+
+            this.validateIfRealNumber(value, valueName);
+
+            if (value <= 0) {
+                throw new RangeError(valueName + ' must be a positive number');
+            }
+        }
+    });
+
     Object.defineProperty(validator, 'validateIfString', {
         value: function (value, valueName) {
             valueName = valueName || defaultValueName;
