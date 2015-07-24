@@ -9,5 +9,23 @@ var validator = (function () {
         }
     });
 
+    Object.defineProperty(validator, 'validateIfNumber', {
+        value: function (value, valueName) {
+            if (typeof value !== 'number') {
+                throw new Error(valueName + ' must be a number');
+            }
+        }
+    });
+
+    //I am not sure for this :(
+    Object.defineProperty(validator, 'validateIfHexColor', {
+        value: function (value, valueName) {
+            var checkHexFormat  = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/;
+            if (checkHexFormat.(value)) {
+                throw new Error(valueName + ' must be a HEX color');
+            }
+        }
+    });
+
     return validator;
 }());
