@@ -53,7 +53,19 @@ var validator = (function () {
             valueName = valueName || defaultValueName;
 
             if (typeof value !== 'string') {
-                throw new Error(valueName + ' must be a string');
+                throw new TypeError(valueName + ' must be a string');
+            }
+        }
+    });
+
+    Object.defineProperty(validator, 'validateIfGameObject', {
+        value: function (value, valueName) {
+            valueName = valueName || defaultValueName;
+
+            this.validateNotNullAndUndefined(value, valueName);
+
+            if (!gameObject.isPrototypeOf(value)) {
+                throw new TypeError(valueName + ' must be a gameObject');
             }
         }
     });
