@@ -21,7 +21,7 @@ var validator = (function () {
     Object.defineProperty(validator, 'validateIfHexColor', {
         value: function (value, valueName) {
             var checkHexFormat  = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/;
-            if (checkHexFormat.(value)) {
+            if (checkHexFormat.(value) == false) {
                 throw new Error(valueName + ' must be a HEX color');
             }
         }
