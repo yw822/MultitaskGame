@@ -64,3 +64,30 @@ var gameObject = (function () {
 
     return gameObject;
 }());
+
+///Really not sure if the circle should be in this file and if it should look like this - please check.
+/// I will not proceed with rectangle and triangle until someone verifies the below code. This is in order to minimize the "refactoring" of what I've written so far.
+var circle = (function (parent) {
+    var circle = Object.create(parent);
+
+    // not sure exactly what this should be doing - please check it
+    Object.defineProperty(circle, 'init', {
+        value: function () {
+            //I suppose it should take values from the games somehow
+            parent.init.call(this);
+
+            return this;
+        }
+    });
+
+    Object.defineProperty(circle, 'update', {
+        value: function () {
+            //?? code to update the position of the circle ??
+        }
+    });
+
+    //?? I suppose we should be checking somehow if the coordinates are where they should be
+    //on the canvas, and within the game logic ??
+
+    return circle;
+}(gameObject));
