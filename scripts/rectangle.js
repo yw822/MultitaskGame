@@ -2,8 +2,8 @@ var rectangle = (function (parent) {
     var rectangle = Object.create(parent);
 
     Object.defineProperty(rectangle, 'init', {
-        value: function (xCoordinate, yCoordinate, width, height, fill, stroke) {
-            parent.init.call(this, xCoordinate, yCoordinate, fill, stroke);
+        value: function (xCoordinate, yCoordinate, width, height, fill, stroke, strokeWidth) {
+            parent.init.call(this, xCoordinate, yCoordinate, fill, stroke, strokeWidth);
             this.width = width;
             this.height = height;
 

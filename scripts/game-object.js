@@ -3,11 +3,12 @@ var gameObject = (function () {
     var gameObject = {};
 
     Object.defineProperty(gameObject, 'init', {
-        value: function (xCoordinate, yCoordinate, fill, stroke) {
+        value: function (xCoordinate, yCoordinate, fill, stroke, strokeWidth) {
             this.xCoordinate = xCoordinate;
             this.yCoordinate = yCoordinate;
             this.fill = fill;
             this.stroke = stroke;
+            this.strokeWidth = strokeWidth;
 
             return this;
         }
@@ -50,6 +51,16 @@ var gameObject = (function () {
         set: function (value) {
             validator.validateIfString(value, 'stroke');
             this._stroke = value;
+        }
+    });
+
+    Object.defineProperty(gameObject, 'strokeWidth', {
+        get: function () {
+            return this._strokeWidth;
+        },
+        set: function (value) {
+            validator.validateIfPositiveNumber(value, 'strokeWidth');
+            this._strokeWidth = value;
         }
     });
 

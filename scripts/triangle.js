@@ -2,8 +2,8 @@ var triangle = (function (parent) {
     var triangle = Object.create(parent);
 
     Object.defineProperty(triangle, 'init', {
-        value: function (xCoordinateA, yCoordinateA, xCoordinateB, yCoordinateB, xCoordinateC, yCoordinateC, fill, stroke) {
-            parent.init.call(this, xCoordinateA, yCoordinateA, fill, stroke);
+        value: function (xCoordinateA, yCoordinateA, xCoordinateB, yCoordinateB, xCoordinateC, yCoordinateC, fill, stroke, strokeWidth) {
+            parent.init.call(this, xCoordinateA, yCoordinateA, fill, stroke, strokeWidth);
             this.xCoordinateB = xCoordinateB;
             this.yCoordinateB = yCoordinateB;
             this.xCoordinateC = xCoordinateC;
