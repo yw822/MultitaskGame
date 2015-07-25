@@ -1,6 +1,5 @@
 var validator = (function () {
-    var validator = {},
-        defaultValueName = 'Value';
+    var validator = {};
 
     function isRealNumber(number) {
         return !isNaN(parseFloat(number)) && isFinite(number);
@@ -12,7 +11,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateNotNullAndUndefined', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             if (value == undefined) {
                 throw new TypeError(valueName + ' cannot be null and undefined.');
@@ -22,7 +21,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateIfBoolean', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             if (typeof value !== 'boolean') {
                 throw new TypeError(valueName + ' must be a boolean');
@@ -32,7 +31,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateIfRealNumber', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             if (isRealNumber(value) === false) {
                 throw new TypeError(valueName + ' must be a real number');
@@ -42,7 +41,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateIfPositiveNumber', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             this.validateIfRealNumber(value, valueName);
 
@@ -54,7 +53,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateIfInteger', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             if (isInteger(value) === false) {
                 throw new TypeError(valueName + ' must be an integer');
@@ -64,7 +63,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateIfString', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             if (typeof value !== 'string') {
                 throw new TypeError(valueName + ' must be a string');
@@ -74,7 +73,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateIfArray', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             if (!(value instanceof Array)) {
                 throw new TypeError(valueName + ' must be an array');
@@ -84,7 +83,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateIfGameObject', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             this.validateNotNullAndUndefined(value, valueName);
 
@@ -96,7 +95,7 @@ var validator = (function () {
 
     Object.defineProperty(validator, 'validateIfPlayer', {
         value: function (value, valueName) {
-            valueName = valueName || defaultValueName;
+            valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
 
             this.validateNotNullAndUndefined(value, valueName);
 
