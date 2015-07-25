@@ -1,3 +1,4 @@
+// TODO: separate the game initialization logic in another script.
 (function () {
     var gameOver = false,
         game_1 = Object.create(game1).init(),
