@@ -10,7 +10,7 @@ function gameObjectFactory(){
             return Object.create(triangle).init(xCoordinateA, yCoordinateA, xCoordinateB, yCoordinateB, xCoordinateC, yCoordinateC, fill, stroke, strokeWidth)
         },
         getCircle: function (xCoordinate, yCoordinate, radius, fill, stroke, strokeWidth) {
-            return Object.create(triangle).init(xCoordinate, yCoordinate, radius, fill, stroke, strokeWidth)
+            return Object.create(circle).init(xCoordinate, yCoordinate, radius, fill, stroke, strokeWidth)
         }
     };
 }
