@@ -58,6 +58,16 @@ var validator = (function () {
         }
     });
 
+    Object.defineProperty(validator, 'validateIfArray', {
+        value: function (value, valueName) {
+            valueName = valueName || defaultValueName;
+
+            if (!(value instanceof Array)) {
+                throw new TypeError(valueName + ' must be an array');
+            }
+        }
+    });
+
     Object.defineProperty(validator, 'validateIfGameObject', {
         value: function (value, valueName) {
             valueName = valueName || defaultValueName;
@@ -66,6 +76,18 @@ var validator = (function () {
 
             if (!gameObject.isPrototypeOf(value)) {
                 throw new TypeError(valueName + ' must be a gameObject');
+            }
+        }
+    });
+
+    Object.defineProperty(validator, 'validateIfPlayer', {
+        value: function (value, valueName) {
+            valueName = valueName || defaultValueName;
+
+            this.validateNotNullAndUndefined(value, valueName);
+
+            if (!player.isPrototypeOf(value)) {
+                throw new TypeError(valueName + ' must be a player');
             }
         }
     });
