@@ -91,9 +91,9 @@ var game3 = (function (parent) {
     //TODO: check if it is possible to move this logic to parent
     Object.defineProperty(game3, 'update', {
         value: function () {
-            game3Renderer.clearStage();
-            game3Renderer.renderPlayer(this.player.shape);
-            game3Renderer.renderEnemies(this.gameObjects);
+            this.renderer.clearStage();
+            this.renderer.renderPlayer(this.player.shape);
+            this.renderer.renderEnemies(this.gameObjects);
             // Move gameObjects
             manageEnemyObjects(this.gameObjects);
             movePlayer(this.player);

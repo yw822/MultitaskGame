@@ -3,6 +3,7 @@ var game = (function () {
 
     Object.defineProperty(game, 'init', {
         value: function (renderer, player, gameObjects) { //TODO: provide collisionDetector
+            this.renderer = renderer;
             this.player = player;
             this.gameObjects = gameObjects || [];
             this.over = false;
@@ -11,12 +12,22 @@ var game = (function () {
         }
     });
 
+    Object.defineProperty(game, 'renderer', {
+        get: function () {
+            return this._renderer;
+        },
+        set: function (value) {
+            // some validation eventually
+            this._renderer = value;
+        }
+    });
+
     Object.defineProperty(game, 'player', {
         get: function () {
             return this._player;
         },
         set: function (value) {
-            //validator.validateIfPlayer(value, 'player');
+            validator.validateIfPlayer(value, 'player');
             this._player = value;
         }
     });
