@@ -3,9 +3,10 @@ var gameObject = (function () {
     var gameObject = {};
 
     Object.defineProperty(gameObject, 'init', {
-        value: function (xCoordinate, yCoordinate, fill, stroke, strokeWidth) {
+        value: function (xCoordinate, yCoordinate, collisionProfile, fill, stroke, strokeWidth) {
             this.xCoordinate = xCoordinate;
             this.yCoordinate = yCoordinate;
+            this.collisionProfile = collisionProfile;
             this.fill = fill;
             this.stroke = stroke;
             this.strokeWidth = strokeWidth;
@@ -31,6 +32,16 @@ var gameObject = (function () {
         set: function (value) {
             validator.validateIfRealNumber(value, 'yCoordinate');
             this._yCoordinate = value;
+        }
+    });
+
+    Object.defineProperty(gameObject, 'collisionProfile', {
+        get: function () {
+            return this._collisionProfile;
+        },
+        set: function (value) {
+            validator.validateIfCollisionProfile(value, 'collisionProfile');
+            this._collisionProfile = value;
         }
     });
 

@@ -2,8 +2,8 @@ var circle = (function (parent) {
     var circle = Object.create(parent);
 
     Object.defineProperty(circle, 'init', {
-        value: function (xCoordinate, yCoordinate, radius, fill, stroke, strokeWidth) {
-            parent.init.call(this, xCoordinate, yCoordinate, fill, stroke, strokeWidth);
+        value: function (xCoordinate, yCoordinate, radius, collisionProfile, fill, stroke, strokeWidth) {
+            parent.init.call(this, xCoordinate, yCoordinate, collisionProfile, fill, stroke, strokeWidth);
             this.radius = radius;
 
             return this;
