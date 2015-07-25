@@ -13,11 +13,12 @@ var game1 = (function (parent) {
         }
     });
 
+    //TODO: check if it is possible to move this logic to parent
     Object.defineProperty(game1, 'update', {
         value: function () {
-            // TODO: Implement this method to redraw your canvas/svg
-            // Delete this line!
-            parent.update.call(this);
+            this.renderer.renderAll(this.player, this.gameObjects);
+            // Move gameObjects
+            // Check for collision
         }
     });
 
