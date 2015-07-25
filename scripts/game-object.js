@@ -1,3 +1,4 @@
+//TODO: make a gameObjectFactory
 var gameObject = (function () {
     var gameObject = {};
 
