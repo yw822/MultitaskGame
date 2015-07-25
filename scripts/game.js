@@ -16,7 +16,7 @@ var game = (function () {
             return this._player;
         },
         set: function (value) {
-            validator.validateIfPlayer(value, 'player');
+            //validator.validateIfPlayer(value, 'player');
             this._player = value;
         }
     });
@@ -66,13 +66,15 @@ var game = (function () {
 
             index = this.gameObjects.indexOf(value);
 
-            if (index >= 0) {
-                removedGameObject = this.gameObjects.splice(index, 1)[0];
-            } else {
-                removedGameObject = null;
-            }
+            this.gameObjects.splice(index, 1);
 
-            return removedGameObject;
+            //if (index >= 0) {
+            //    removedGameObject = this.gameObjects.splice(index, 1)[0];
+            //} else {
+            //    removedGameObject = null;
+            //}
+
+            //return removedGameObject;
         }
     });
 

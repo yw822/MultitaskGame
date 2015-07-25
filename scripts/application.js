@@ -1,11 +1,11 @@
 // TODO: separate the game initialization logic in another script.
 (function () {
     var gameOver = false,
-        game_1 = Object.create(game1).init(),
-        game_2 = Object.create(game2).init(),
+        //game_1 = Object.create(game1).init(),
+        //game_2 = Object.create(game2).init(),
         game_3 = Object.create(game3).init(),
-        game_4 = Object.create(game4).init(),
-        games = [game_1, game_2, game_3, game_4];
+        //game_4 = Object.create(game4).init(),
+        games = [/*game_1, game_2,*/ game_3, /*game_4*/];
 
     function updateGames() {
         games.forEach(function (game) {

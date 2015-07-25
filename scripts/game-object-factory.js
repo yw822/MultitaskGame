@@ -1,4 +1,4 @@
-function gameObjectFactory(){
+var gameObjectFactory = (function () {
     return {
         getRectangle: function (xCoordinate, yCoordinate, width, height, fill, stroke, strokeWidth) {
             return Object.create(rectangle).init(xCoordinate, yCoordinate, width, height, fill, stroke, strokeWidth)
@@ -13,4 +13,4 @@ function gameObjectFactory(){
             return Object.create(circle).init(xCoordinate, yCoordinate, radius, fill, stroke, strokeWidth)
         }
     };
-}
+}());
