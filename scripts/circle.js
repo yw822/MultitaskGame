@@ -20,14 +20,5 @@ var circle = (function (parent) {
         }
     });
 
-    Object.defineProperty(circle, 'update', {
-        value: function () {
-            // TODO: Implement this method to move your circle
-
-            // Delete this line!
-            parent.update.call(this);
-        }
-    });
-
     return circle;
 }(gameObject));

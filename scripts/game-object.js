@@ -64,11 +64,5 @@ var gameObject = (function () {
         }
     });
 
-    Object.defineProperty(gameObject, 'update', {
-        value: function () {
-            throw new NotImplementedError('Your game object needs to implement the "abstract" method update (change coordinates, state, etc...)');
-        }
-    });
-
     return gameObject;
 }());

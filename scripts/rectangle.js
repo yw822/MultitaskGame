@@ -31,15 +31,6 @@ var rectangle = (function (parent) {
         }
     });
 
-    Object.defineProperty(rectangle, 'update', {
-        value: function () {
-            // TODO: Implement this method to move your circle
-
-            // Delete this line!
-            parent.update.call(this);
-        }
-    });
-
     // This method binds rectangle with canvas! The rectangle should not know how to draw itself!
     Object.defineProperty(rectangle, 'draw', {
         value: function (width, height, canvas) {
