@@ -1,13 +1,26 @@
-var game = (function () {
-    var game = {};
+module.exports = (function () {
+    var game = {},
+        validator = require('./validator.js'),
+        gameError = require('./game-errors.js');
 
     Object.defineProperty(game, 'init', {
         value: function (renderer, player, gameObjects) { //TODO: provide collisionDetector
+            this.renderer = renderer;
             this.player = player;
             this.gameObjects = gameObjects || [];
             this.over = false;
 
             return this;
+        }
+    });
+
+    Object.defineProperty(game, 'renderer', {
+        get: function () {
+            return this._renderer;
+        },
+        set: function (value) {
+            validator.validateIfRenderer(value, 'renderer');
+            this._renderer = value;
         }
     });
 
@@ -46,7 +59,7 @@ var game = (function () {
 
     Object.defineProperty(game, 'update', {
         value: function () {
-            throw new NotImplementedError('Your game needs to implement the "abstract" method update');
+            throw new gameError.NotImplementedError('Your game needs to implement the "abstract" method update');
         }
     });
 

@@ -1,4 +1,4 @@
-var game4 = (function (parent) {
+module.exports = (function (parent) {
     var game4 = Object.create(parent);
 
     // When the game is over, please set game4.over = true;
@@ -25,4 +25,4 @@ var game4 = (function (parent) {
     });
 
     return game4;
-}(game));
+}(require('./game.js')));

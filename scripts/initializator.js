@@ -1,4 +1,4 @@
-var initializator = (function() {
+module.exports = (function() {
     var initializator = {};
     Object.defineProperty(initializator, 'initializeGame1', {
         value: function () {

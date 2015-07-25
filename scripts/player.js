@@ -1,5 +1,6 @@
-var player = (function() {
-    var player = {};
+module.exports = (function() {
+    var player = {},
+        validator = require('./validator.js');
 
     Object.defineProperty(player, 'init', {
         value: function (shape) {

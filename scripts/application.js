@@ -1,6 +1,10 @@
 // TODO: separate the game initialization logic in another script.
 (function () {
     var gameOver = false,
+        game1 = require('./game-1.js'),
+        game2 = require('./game-2.js'),
+        game3 = require('./game-3.js'),
+        game4 = require('./game-4.js'),
         game_1 = Object.create(game1).init(),
         game_2 = Object.create(game2).init(),
         game_3 = Object.create(game3).init(),

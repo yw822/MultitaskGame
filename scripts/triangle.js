@@ -1,5 +1,6 @@
-var triangle = (function (parent) {
-    var triangle = Object.create(parent);
+module.exports = (function (parent) {
+    var triangle = Object.create(parent),
+        validator = require('./validator.js');
 
     Object.defineProperty(triangle, 'init', {
         value: function (xCoordinateA, yCoordinateA, xCoordinateB, yCoordinateB, xCoordinateC, yCoordinateC, collisionProfile, fill, stroke, strokeWidth) {
@@ -73,4 +74,4 @@ var triangle = (function (parent) {
     });
 
     return triangle;
-}(gameObject));
+}(require('./game-object.js')));

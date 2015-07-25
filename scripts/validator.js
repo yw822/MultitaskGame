@@ -1,6 +1,10 @@
-var SAT = require('sat'),
-    validator = (function () {
-        var validator = {};
+    module.exports = (function () {
+        var validator = {},
+            CONSTANTS = require('./constants.js'),
+            gameObject = require('./game-object.js'),
+            player = require('./player.js'),
+            renderer = require('./renderer.js'),
+            SAT = require('sat');
 
         function isRealNumber(number) {
             return !isNaN(parseFloat(number)) && isFinite(number);
@@ -102,6 +106,18 @@ var SAT = require('sat'),
 
                 if (!player.isPrototypeOf(value)) {
                     throw new TypeError(valueName + ' must be a player');
+                }
+            }
+        });
+
+        Object.defineProperty(validator, 'validateIfRenderer', {
+            value: function (value, valueName) {
+                valueName = valueName || CONSTANTS.DEFAULT_VALUE_NAME;
+
+                this.validateNotNullAndUndefined(value, valueName);
+
+                if (!renderer.isPrototypeOf(value)) {
+                    throw new TypeError(valueName + ' must be a renderer');
                 }
             }
         });

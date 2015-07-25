@@ -1,5 +1,6 @@
-var rectangleWithText = (function(parent) {
-    var rectangleWithText = Object.create(parent);
+module.exports = (function(parent) {
+    var rectangleWithText = Object.create(parent),
+        validator = require('./validator.js');
 
     Object.defineProperty(rectangleWithText, 'init', {
         value: function (xCoordinate, yCoordinate, width, height, collisionProfile, fill, stroke, strokeWidth, text) {
@@ -21,4 +22,4 @@ var rectangleWithText = (function(parent) {
     });
 
     return rectangleWithText;
-}(rectangle));
+}(require('./rectangle.js')));

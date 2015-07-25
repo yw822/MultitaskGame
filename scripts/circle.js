@@ -1,5 +1,6 @@
-var circle = (function (parent) {
-    var circle = Object.create(parent);
+module.exports = (function (parent) {
+    var circle = Object.create(parent),
+        validator = require('./validator.js');
 
     Object.defineProperty(circle, 'init', {
         value: function (xCoordinate, yCoordinate, radius, collisionProfile, fill, stroke, strokeWidth) {
@@ -10,7 +11,7 @@ var circle = (function (parent) {
         }
     });
 
-    Object.defineProperty(gameObject, 'radius', {
+    Object.defineProperty(circle, 'radius', {
         get: function () {
             return this._radius;
         },
@@ -21,4 +22,4 @@ var circle = (function (parent) {
     });
 
     return circle;
-}(gameObject));
+}(require('./game-object.js')));

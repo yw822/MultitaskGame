@@ -1,4 +1,4 @@
-var game4Renderer = (function (parent) {
+module.exports = (function (parent) {
     var game4Renderer = Object.create(parent);
     // Consider declaring here a private variable to hold your Canvas Context or SVG element.
 
@@ -21,4 +21,4 @@ var game4Renderer = (function (parent) {
     });
 
     return game4Renderer;
-}(renderer));
+}(require('./renderer.js')));

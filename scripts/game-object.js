@@ -1,5 +1,5 @@
 //TODO: make a gameObjectFactory
-var gameObject = (function () {
+module.exports = (function (validator) {
     var gameObject = {};
 
     Object.defineProperty(gameObject, 'init', {
@@ -76,4 +76,4 @@ var gameObject = (function () {
     });
 
     return gameObject;
-}());
+}(require('./validator.js')));

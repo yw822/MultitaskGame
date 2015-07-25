@@ -1,5 +1,6 @@
-var rectangle = (function (parent) {
-    var rectangle = Object.create(parent);
+module.exports = (function (parent) {
+    var rectangle = Object.create(parent),
+        validator = require('./validator.js');
 
     Object.defineProperty(rectangle, 'init', {
         value: function (xCoordinate, yCoordinate, width, height, collisionProfile, fill, stroke, strokeWidth) {
@@ -31,18 +32,5 @@ var rectangle = (function (parent) {
         }
     });
 
-    // This method binds rectangle with canvas! The rectangle should not know how to draw itself!
-    Object.defineProperty(rectangle, 'draw', {
-        value: function (width, height, canvas) {
-            var canvas = canvas;
-            if (canvas.getContext) {
-                var ctx = canvas.getContext('2d');
-                ctx.fillRect(this.xCoordinate, this.yCoordinate, width, height);
-                ctx.clearRect(this.xCoordinate, this.yCoordinate, width, height);
-                ctx.strokeRect(this.xCoordinate, this.yCoordinate, width, height);
-            }
-        }
-    });
-
     return rectangle;
-}(gameObject));
+}(require('./game-object.js')));
