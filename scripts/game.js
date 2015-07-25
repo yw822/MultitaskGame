@@ -50,5 +50,43 @@ var game = (function () {
         }
     });
 
+    Object.defineProperty(game, 'addGameObject', {
+        value: function (value) {
+            validator.validateIfGameObject(value, 'gameObject');
+            this.gameObjects.push(value);
+        }
+    });
+
+    Object.defineProperty(game, 'removeGameObject', {
+        value: function (value) {
+            var index,
+                removedGameObject;
+
+            validator.validateIfGameObject(value, 'gameObject');
+
+            index = this.gameObjects.indexOf(value);
+
+            if (index >= 0) {
+                removedGameObject = this.gameObjects.splice(index, 1)[0];
+            } else {
+                removedGameObject = null;
+            }
+
+            return removedGameObject;
+        }
+    });
+
+    Object.defineProperty(game, 'removeGameObjectByIndex', {
+        value: function (index) {
+            var removedGameObject;
+
+            validator.validateIfInteger(index, 'index');
+
+            removedGameObject = this.gameObjects.splice(index, 1)[0];
+
+            return removedGameObject;
+        }
+    });
+
     return game;
 }());

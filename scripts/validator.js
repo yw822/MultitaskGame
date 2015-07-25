@@ -6,6 +6,10 @@ var validator = (function () {
         return !isNaN(parseFloat(number)) && isFinite(number);
     }
 
+    function isInteger(number) {
+        return number === parseInt(number, 10);
+    }
+
     Object.defineProperty(validator, 'validateNotNullAndUndefined', {
         value: function (value, valueName) {
             valueName = valueName || defaultValueName;
@@ -44,6 +48,16 @@ var validator = (function () {
 
             if (value <= 0) {
                 throw new RangeError(valueName + ' must be a positive number');
+            }
+        }
+    });
+
+    Object.defineProperty(validator, 'validateIfInteger', {
+        value: function (value, valueName) {
+            valueName = valueName || defaultValueName;
+
+            if (isInteger(value) === false) {
+                throw new TypeError(valueName + ' must be an integer');
             }
         }
     });
