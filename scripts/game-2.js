@@ -16,7 +16,9 @@ var game2 = (function (parent) {
     //TODO: check if it is possible to move this logic to parent
     Object.defineProperty(game2, 'update', {
         value: function () {
-            this.renderer.renderAll(this.player, this.gameObjects);
+            this.renderer.clearStage();
+            this.renderer.render(this.player.shape);
+            this.gameObjects.forEach(this.renderer.render);
             // Move gameObjects
             // Check for collision
         }

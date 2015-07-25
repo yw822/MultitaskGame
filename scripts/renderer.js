@@ -7,23 +7,9 @@ var renderer = (function() {
         }
     });
 
-    Object.defineProperty(renderer, 'renderPlayer', {
-        value: function (player) {
-            throw new NotImplementedError('Your renderer needs to implement the "abstract" method renderPlayer');
-        }
-    });
-
-    Object.defineProperty(renderer, 'renderGameObjects', {
-        value: function (gameObjects) {
-            throw new NotImplementedError('Your renderer needs to implement the "abstract" method renderGameObjects');
-        }
-    });
-
-    Object.defineProperty(renderer, 'renderAll', {
-        value: function (player, gameObjects) {
-            this.clearStage();
-            this.renderPlayer(player);
-            this.renderGameObjects(gameObjects);
+    Object.defineProperty(renderer, 'render', {
+        value: function (gameObject) {
+            throw new NotImplementedError('Your renderer needs to implement the "abstract" method render');
         }
     });
 
