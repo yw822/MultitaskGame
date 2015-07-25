@@ -2,10 +2,11 @@ var game = (function () {
     var game = {};
 
     Object.defineProperty(game, 'init', {
-        value: function (renderer, player, gameObjects) { //TODO: provide collisionDetector
+        value: function (renderer, player, gameObjects, gameObjectsManager) { //TODO: provide collisionDetector
             this.renderer = renderer;
             this.player = player;
             this.gameObjects = gameObjects || [];
+            this.gameObjectsManager = gameObjectsManager;
             this.over = false;
 
             return this;
@@ -19,6 +20,16 @@ var game = (function () {
         set: function (value) {
             // some validation eventually
             this._renderer = value;
+        }
+    });
+
+    Object.defineProperty(game, 'gameObjectsManager', {
+        get: function () {
+            return this._gameObjectsManager;
+        },
+        set: function (value) {
+            // some validation eventually
+            this._gameObjectsManager = value;
         }
     });
 
