@@ -2,7 +2,7 @@ var game = (function () {
     var game = {};
 
     Object.defineProperty(game, 'init', {
-        value: function (renderer, player, gameObjects) { //TODO: Make renderer superclass //TODO: provide collisionDetector
+        value: function (renderer, player, gameObjects) { //TODO: provide collisionDetector
             this.player = player;
             this.gameObjects = gameObjects || [];
             this.over = false;

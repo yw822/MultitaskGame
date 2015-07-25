@@ -6,8 +6,8 @@ var game1 = (function (parent) {
     // If you need to initialize the state of your game, please use this property. Otherwise feel free to
     // remove it from the code. The parent.init will be called due to the prototype chain.
     Object.defineProperty(game1, 'init', {
-        value: function () {
-            parent.init.call(this);
+        value: function (renderer, player, gameObjects) {
+            parent.init.call(this, renderer, player, gameObjects);
 
             return this;
         }
