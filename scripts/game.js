@@ -19,7 +19,7 @@ module.exports = (function () {
             return this._renderer;
         },
         set: function (value) {
-            //validator.validateIfRenderer(value, 'renderer');
+            validator.validateIfRenderer(value, 'renderer');
             this._renderer = value;
         }
     });
@@ -29,7 +29,7 @@ module.exports = (function () {
             return this._player;
         },
         set: function (value) {
-            //validator.validateIfPlayer(value, 'player');
+            validator.validateIfPlayer(value, 'player');
             this._player = value;
         }
     });
@@ -39,10 +39,10 @@ module.exports = (function () {
             return this._gameObjects;
         },
         set: function (value) {
-            //validator.validateIfArray(value, 'gameObjects');
-            //value.forEach(function (val) {
-            //    validator.validateIfGameObject(val, 'Each value in gameObjects');
-            //});
+            validator.validateIfArray(value, 'gameObjects');
+            value.forEach(function (val) {
+                validator.validateIfGameObject(val, 'Each value in gameObjects');
+            });
             this._gameObjects = value;
         }
     });
@@ -81,7 +81,7 @@ module.exports = (function () {
 
     Object.defineProperty(game, 'addGameObject', {
         value: function (value) {
-            //validator.validateIfGameObject(value, 'gameObject');
+            validator.validateIfGameObject(value, 'gameObject');
             this.gameObjects.push(value);
         }
     });
@@ -91,7 +91,7 @@ module.exports = (function () {
             var index,
                 removedGameObject;
 
-            //validator.validateIfGameObject(value, 'gameObject');
+            validator.validateIfGameObject(value, 'gameObject');
 
             index = this.gameObjects.indexOf(value);
 

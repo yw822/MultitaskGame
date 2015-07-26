@@ -16,7 +16,7 @@ module.exports = (function() {
             return this._shape;
         },
         set: function (value) {
-            //validator.validateIfGameObject(value, 'shape');
+            validator.validateIfGameObject(value, 'shape');
             this._shape = value;
         }
     });
