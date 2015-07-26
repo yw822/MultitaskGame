@@ -32,5 +32,20 @@ module.exports = (function (parent) {
         }
     });
 
+    Object.defineProperty(rectangle, 'getCoordinatesAsArray', {
+        value: function () {
+            var coordinatesAsArray = parent.getCoordinatesAsArray.call(this),
+                bX = this.xCoordinate,
+                bY = this.yCoordinate + this.height,
+                cX = this.xCoordinate + this.width,
+                cY = this.yCoordinate + this.height,
+                dX = this.xCoordinate + this.width,
+                dY = this.yCoordinate;
+
+            coordinatesAsArray = coordinatesAsArray.concat([bX, bY, cX, cY, dX, dY]);
+            return coordinatesAsArray;
+        }
+    });
+
     return rectangle;
 }(require('./game-object.js')));

@@ -6,8 +6,8 @@ module.exports = (function (parent) {
     // If you need to initialize the state of your game, please use this property. Otherwise feel free to
     // remove it from the code. The parent.init will be called due to the prototype chain.
     Object.defineProperty(game1, 'init', {
-        value: function (renderer, player, gameObjects) {
-            parent.init.call(this, renderer, player, gameObjects);
+        value: function (renderer, player, gameObjects, gameObjectsManager) {
+            parent.init.call(this, renderer, player, gameObjects, gameObjectsManager);
 
             return this;
         }

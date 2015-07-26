@@ -1,13 +1,13 @@
 module.exports = (function () {
     var game = {},
-        validator = require('./validator.js'),
-        gameError = require('./game-errors.js');
+        validator = require('./validator.js');
 
     Object.defineProperty(game, 'init', {
-        value: function (renderer, player, gameObjects) { //TODO: provide collisionDetector
+        value: function (renderer, player, gameObjects, gameObjectsManager) { //TODO: provide collisionDetector
             this.renderer = renderer;
             this.player = player;
             this.gameObjects = gameObjects || [];
+            this.gameObjectsManager = gameObjectsManager;
             this.over = false;
 
             return this;
@@ -19,7 +19,7 @@ module.exports = (function () {
             return this._renderer;
         },
         set: function (value) {
-            validator.validateIfRenderer(value, 'renderer');
+            //validator.validateIfRenderer(value, 'renderer');
             this._renderer = value;
         }
     });
@@ -29,7 +29,7 @@ module.exports = (function () {
             return this._player;
         },
         set: function (value) {
-            validator.validateIfPlayer(value, 'player');
+            //validator.validateIfPlayer(value, 'player');
             this._player = value;
         }
     });
@@ -39,11 +39,21 @@ module.exports = (function () {
             return this._gameObjects;
         },
         set: function (value) {
-            validator.validateIfArray(value, 'gameObjects');
-            value.forEach(function (val) {
-                validator.validateIfGameObject(val, 'Each value in gameObjects');
-            });
+            //validator.validateIfArray(value, 'gameObjects');
+            //value.forEach(function (val) {
+            //    validator.validateIfGameObject(val, 'Each value in gameObjects');
+            //});
             this._gameObjects = value;
+        }
+    });
+
+    Object.defineProperty(game, 'gameObjectsManager', {
+        get: function () {
+            return this._gameObjectsManager;
+        },
+        set: function (value) {
+            //TODO: Add validation or meybe not before circular dependency is understood.
+            this._gameObjectsManager = value;
         }
     });
 
@@ -59,13 +69,19 @@ module.exports = (function () {
 
     Object.defineProperty(game, 'update', {
         value: function () {
-            throw new gameError.NotImplementedError('Your game needs to implement the "abstract" method update');
+            this.renderer.clearStage();
+            this.renderer.render(this.player.shape);
+            this.gameObjects.forEach(this.renderer.render);
+            // Move game objects
+            // Check for collision
+
+            //throw new gameError.NotImplementedError('Your game needs to implement the "abstract" method update');
         }
     });
 
     Object.defineProperty(game, 'addGameObject', {
         value: function (value) {
-            validator.validateIfGameObject(value, 'gameObject');
+            //validator.validateIfGameObject(value, 'gameObject');
             this.gameObjects.push(value);
         }
     });
@@ -75,17 +91,19 @@ module.exports = (function () {
             var index,
                 removedGameObject;
 
-            validator.validateIfGameObject(value, 'gameObject');
+            //validator.validateIfGameObject(value, 'gameObject');
 
             index = this.gameObjects.indexOf(value);
 
-            if (index >= 0) {
-                removedGameObject = this.gameObjects.splice(index, 1)[0];
-            } else {
-                removedGameObject = null;
-            }
+            this.gameObjects.splice(index, 1);
 
-            return removedGameObject;
+            //if (index >= 0) {
+            //    removedGameObject = this.gameObjects.splice(index, 1)[0];
+            //} else {
+            //    removedGameObject = null;
+            //}
+
+            //return removedGameObject;
         }
     });
 

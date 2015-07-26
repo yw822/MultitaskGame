@@ -73,5 +73,13 @@ module.exports = (function (parent) {
         }
     });
 
+    Object.defineProperty(triangle, 'getCoordinatesAsArray', {
+        value: function () {
+            var coordinatesAsArray = parent.getCoordinatesAsArray.call(this);
+            coordinatesAsArray = coordinatesAsArray.concat([this.xCoordinateB, this.yCoordinateB, this.xCoordinateC, this.yCoordinateC]);
+            return coordinatesAsArray;
+        }
+    });
+
     return triangle;
 }(require('./game-object.js')));

@@ -1,6 +1,7 @@
 //TODO: make a gameObjectFactory
-module.exports = (function (validator) {
-    var gameObject = {};
+module.exports = (function () {
+    var gameObject = {},
+        validator = require('./validator.js');
 
     Object.defineProperty(gameObject, 'init', {
         value: function (xCoordinate, yCoordinate, collisionProfile, fill, stroke, strokeWidth) {
@@ -40,7 +41,7 @@ module.exports = (function (validator) {
             return this._collisionProfile;
         },
         set: function (value) {
-            validator.validateIfCollisionProfile(value, 'collisionProfile');
+            //validator.validateIfCollisionProfile(value, 'collisionProfile');
             this._collisionProfile = value;
         }
     });
@@ -75,5 +76,11 @@ module.exports = (function (validator) {
         }
     });
 
+    Object.defineProperty(gameObject, 'getCoordinatesAsArray', {
+        value: function () {
+            return [this.xCoordinate, this.yCoordinate];
+        }
+    });
+
     return gameObject;
-}(require('./validator.js')));
+}());
