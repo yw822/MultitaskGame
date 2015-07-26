@@ -6,7 +6,7 @@
     "SimoPrG <simeon_petev@hotmail.com>"
   ],
   "description": "A multitasking game",
-  "main": "index.html",
+  "main": "run.js",
   "keywords": [
     "multitasking",
     "multitask",
