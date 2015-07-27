@@ -1,5 +1,5 @@
 module.exports = (function (parent) {
-    var game3 = Object.create(parent);
+     var game3 = Object.create(parent);       
 
     // When the game is over, please set game3.over = true;
 
@@ -15,7 +15,7 @@ module.exports = (function (parent) {
                 playerShape = gameObjectFactory.getTriangle(50, 180, 50, 200, 65, 190, 'azure', 'purple', 2),
                 renderer = Object.create(game3Renderer),
                 somePlayer = Object.create(player).init(playerShape, 'down'),
-                gameObjectsManager = Object.create(game3ObjectsManager);
+                gameObjectsManager = Object.create(game3ObjectsManager);            
 
             parent.init.call(this, renderer, somePlayer, [], gameObjectsManager);
             return this;
@@ -29,6 +29,7 @@ module.exports = (function (parent) {
             // Move gameObjects
             // TODO: Consider how the gameObjectManager can provide general methods here
             this.gameObjectsManager.manageObstacles(this.gameObjects);
+            this.gameObjectsManager.startChangeDirectionListener(this);
             this.gameObjectsManager.movePlayer(this.player);
             // Check for collision: TODO in the game-3-objects-manager.js
             this.gameObjectsManager.manageCollisions(this.player, this.gameObjects);

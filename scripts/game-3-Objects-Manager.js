@@ -52,6 +52,26 @@
         }
     });
 
+    Object.defineProperty(game3ObjectsManager, 'startChangeDirectionListener', {
+        value: function (game) {
+            document.addEventListener('keydown', downpressHandle);
+            document.addEventListener('keyup', upHandle);
+
+            function downpressHandle(key) {
+                if (key.keyCode === 32) {
+                    game.player.direction = 'up';
+                    document.removeEventListener('keydown', downpressHandle);
+                }
+            }
+            function upHandle(key) {
+                if (key.keyCode === 32) {
+                    game.player.direction = 'down';
+                    document.removeEventListener('keyup', upHandle);
+                }
+            }
+        }
+    });    
+
     Object.defineProperty(game3ObjectsManager, 'movePlayer', {
         //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
         value: function (player) {
@@ -66,21 +86,6 @@
                 player.shape.yCoordinateB -= 1; // some variable called speed.
                 player.shape.yCoordinateC -= 1; // some variable called speed.
             }
-
-            // Events to change the player direction
-            window.addEventListener('keydown', function (e) {
-                if (e.keyCode === 32) {
-                    e.preventDefault();
-                    player.direction = 'up';
-                }
-            }, false);
-
-            window.addEventListener('keyup', function (e) {
-                if (e.keyCode === 32) {
-                    e.preventDefault();
-                    player.direction = 'down';
-                }
-            }, false);
         }
     });
 

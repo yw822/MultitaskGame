@@ -1213,6 +1213,26 @@ module.exports = (function (parent) {
         }
     });
 
+    Object.defineProperty(game3ObjectsManager, 'startChangeDirectionListener', {
+        value: function (game) {
+            document.addEventListener('keydown', downpressHandle);
+            document.addEventListener('keyup', upHandle);
+
+            function downpressHandle(key) {
+                if (key.keyCode === 32) {
+                    game.player.direction = 'up';
+                    document.removeEventListener('keydown', downpressHandle);
+                }
+            }
+            function upHandle(key) {
+                if (key.keyCode === 32) {
+                    game.player.direction = 'down';
+                    document.removeEventListener('keyup', upHandle);
+                }
+            }
+        }
+    });    
+
     Object.defineProperty(game3ObjectsManager, 'movePlayer', {
         //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
         value: function (player) {
@@ -1227,21 +1247,6 @@ module.exports = (function (parent) {
                 player.shape.yCoordinateB -= 1; // some variable called speed.
                 player.shape.yCoordinateC -= 1; // some variable called speed.
             }
-
-            // Events to change the player direction
-            window.addEventListener('keydown', function (e) {
-                if (e.keyCode === 32) {
-                    e.preventDefault();
-                    player.direction = 'up';
-                }
-            }, false);
-
-            window.addEventListener('keyup', function (e) {
-                if (e.keyCode === 32) {
-                    e.preventDefault();
-                    player.direction = 'down';
-                }
-            }, false);
         }
     });
 
@@ -1297,7 +1302,7 @@ module.exports = (function (parent) {
 
 },{"./renderer.js":23}],11:[function(require,module,exports){
 module.exports = (function (parent) {
-    var game3 = Object.create(parent);
+     var game3 = Object.create(parent);       
 
     // When the game is over, please set game3.over = true;
 
@@ -1313,7 +1318,7 @@ module.exports = (function (parent) {
                 playerShape = gameObjectFactory.getTriangle(50, 180, 50, 200, 65, 190, 'azure', 'purple', 2),
                 renderer = Object.create(game3Renderer),
                 somePlayer = Object.create(player).init(playerShape, 'down'),
-                gameObjectsManager = Object.create(game3ObjectsManager);
+                gameObjectsManager = Object.create(game3ObjectsManager);            
 
             parent.init.call(this, renderer, somePlayer, [], gameObjectsManager);
             return this;
@@ -1327,6 +1332,7 @@ module.exports = (function (parent) {
             // Move gameObjects
             // TODO: Consider how the gameObjectManager can provide general methods here
             this.gameObjectsManager.manageObstacles(this.gameObjects);
+            this.gameObjectsManager.startChangeDirectionListener(this);
             this.gameObjectsManager.movePlayer(this.player);
             // Check for collision: TODO in the game-3-objects-manager.js
             this.gameObjectsManager.manageCollisions(this.player, this.gameObjects);
