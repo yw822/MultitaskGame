@@ -1,5 +1,5 @@
-﻿module.exports = (function () {
-    var game3ObjectsManager = {};
+﻿module.exports = (function (parent) {
+    var game3ObjectsManager = Object.create(parent);
 
     // Magic numbers --> constants in the constants.js
 
@@ -12,7 +12,7 @@
 
         if (obstacles.length === 0) {
             randomYCoord = Math.random() * 150;
-            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'collisionProfile', 'black', 'none', 1);
+            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'black', 'none', 1);
             obstacles.push(newObstacle);
         }
 
@@ -21,7 +21,7 @@
             return obstacle.xCoordinate === 140;
         })) {
             randomYCoord = Math.random() * 150;
-            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'collisionProfile', 'black', 'none', 1);
+            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'black', 'none', 1);
             obstacles.push(newObstacle);
         }
 
@@ -34,9 +34,15 @@
     }       
 
     function moveEnemyObjects(obstacles) {
-        obstacles.forEach(function (obstacle) {
-            obstacle.xCoordinate -= 1; // some variable called speed.
-        });
+        //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
+        obstacles.forEach(
+        //    function (obstacle) {
+        //    obstacle.xCoordinate -= 1; // some variable called speed.
+        //}
+            function (obstacle) {
+                parent.move(obstacle, -1, 0);
+            }
+        );
     }
 
     Object.defineProperty(game3ObjectsManager, 'manageObstacles', {
@@ -47,6 +53,7 @@
     });
 
     Object.defineProperty(game3ObjectsManager, 'movePlayer', {
+        //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
         value: function (player) {
             if (player.shape.yCoordinateA < 180 && player.direction === 'down') {
                 player.shape.yCoordinateA += 1; // some variable called speed.
@@ -84,4 +91,4 @@
     });
 
     return game3ObjectsManager;
-}());
+}(require('./game-object-manager.js')));

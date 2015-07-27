@@ -12,7 +12,7 @@ module.exports = (function (parent) {
                 game3Renderer = require('./game-3-renderer.js'),
                 player = require('./player.js'),
                 game3ObjectsManager = require('./game-3-Objects-Manager.js'),
-                playerShape = gameObjectFactory.getTriangle(50, 180, 50, 200, 65, 190, 'collisionProfile', 'azure', 'purple', 2),
+                playerShape = gameObjectFactory.getTriangle(50, 180, 50, 200, 65, 190, 'azure', 'purple', 2),
                 renderer = Object.create(game3Renderer),
                 somePlayer = Object.create(player).init(playerShape, 'down'),
                 gameObjectsManager = Object.create(game3ObjectsManager);
@@ -27,7 +27,7 @@ module.exports = (function (parent) {
         value: function () {
             parent.update.call(this);
             // Move gameObjects
-            // TODO: Consider how the gameObjectManager can provide one general method here
+            // TODO: Consider how the gameObjectManager can provide general methods here
             this.gameObjectsManager.manageObstacles(this.gameObjects);
             this.gameObjectsManager.movePlayer(this.player);
             // Check for collision: TODO in the game-3-objects-manager.js

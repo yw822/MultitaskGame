@@ -1046,7 +1046,7 @@ module.exports = (function (parent) {
     return circle;
 }(require('./game-object.js')));
 
-},{"./game-object.js":16,"./validator.js":25}],4:[function(require,module,exports){
+},{"./game-object.js":17,"./validator.js":26}],4:[function(require,module,exports){
 module.exports = (function() {
     var CONSTANTS = {};
 
@@ -1083,7 +1083,7 @@ module.exports = (function (parent) {
 
     return game1Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":22}],6:[function(require,module,exports){
+},{"./renderer.js":23}],6:[function(require,module,exports){
 module.exports = (function (parent) {
     var game1 = Object.create(parent);
 
@@ -1108,7 +1108,7 @@ module.exports = (function (parent) {
 
     return game1;
 }(require('./game.js')));
-},{"./game.js":17}],7:[function(require,module,exports){
+},{"./game.js":18}],7:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2Renderer = Object.create(parent);
     // Consider declaring here a private variable to hold your Canvas Context or SVG element.
@@ -1133,7 +1133,7 @@ module.exports = (function (parent) {
 
     return game2Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":22}],8:[function(require,module,exports){
+},{"./renderer.js":23}],8:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2 = Object.create(parent);
 
@@ -1158,9 +1158,9 @@ module.exports = (function (parent) {
 
     return game2;
 }(require('./game.js')));
-},{"./game.js":17}],9:[function(require,module,exports){
-module.exports = (function () {
-    var game3ObjectsManager = {};
+},{"./game.js":18}],9:[function(require,module,exports){
+module.exports = (function (parent) {
+    var game3ObjectsManager = Object.create(parent);
 
     // Magic numbers --> constants in the constants.js
 
@@ -1173,7 +1173,7 @@ module.exports = (function () {
 
         if (obstacles.length === 0) {
             randomYCoord = Math.random() * 150;
-            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'collisionProfile', 'black', 'none', 1);
+            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'black', 'none', 1);
             obstacles.push(newObstacle);
         }
 
@@ -1182,7 +1182,7 @@ module.exports = (function () {
             return obstacle.xCoordinate === 140;
         })) {
             randomYCoord = Math.random() * 150;
-            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'collisionProfile', 'black', 'none', 1);
+            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'black', 'none', 1);
             obstacles.push(newObstacle);
         }
 
@@ -1195,9 +1195,15 @@ module.exports = (function () {
     }       
 
     function moveEnemyObjects(obstacles) {
-        obstacles.forEach(function (obstacle) {
-            obstacle.xCoordinate -= 1; // some variable called speed.
-        });
+        //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
+        obstacles.forEach(
+        //    function (obstacle) {
+        //    obstacle.xCoordinate -= 1; // some variable called speed.
+        //}
+            function (obstacle) {
+                parent.move(obstacle, -1, 0);
+            }
+        );
     }
 
     Object.defineProperty(game3ObjectsManager, 'manageObstacles', {
@@ -1208,6 +1214,7 @@ module.exports = (function () {
     });
 
     Object.defineProperty(game3ObjectsManager, 'movePlayer', {
+        //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
         value: function (player) {
             if (player.shape.yCoordinateA < 180 && player.direction === 'down') {
                 player.shape.yCoordinateA += 1; // some variable called speed.
@@ -1245,8 +1252,8 @@ module.exports = (function () {
     });
 
     return game3ObjectsManager;
-}());
-},{"./game-object-factory.js":15}],10:[function(require,module,exports){
+}(require('./game-object-manager.js')));
+},{"./game-object-factory.js":15,"./game-object-manager.js":16}],10:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3Renderer = Object.create(parent),
         stage = new Kinetic.Stage({
@@ -1288,7 +1295,7 @@ module.exports = (function (parent) {
     return game3Renderer;
 }(require('./renderer.js')));
 
-},{"./renderer.js":22}],11:[function(require,module,exports){
+},{"./renderer.js":23}],11:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3 = Object.create(parent);
 
@@ -1303,7 +1310,7 @@ module.exports = (function (parent) {
                 game3Renderer = require('./game-3-renderer.js'),
                 player = require('./player.js'),
                 game3ObjectsManager = require('./game-3-Objects-Manager.js'),
-                playerShape = gameObjectFactory.getTriangle(50, 180, 50, 200, 65, 190, 'collisionProfile', 'azure', 'purple', 2),
+                playerShape = gameObjectFactory.getTriangle(50, 180, 50, 200, 65, 190, 'azure', 'purple', 2),
                 renderer = Object.create(game3Renderer),
                 somePlayer = Object.create(player).init(playerShape, 'down'),
                 gameObjectsManager = Object.create(game3ObjectsManager);
@@ -1318,7 +1325,7 @@ module.exports = (function (parent) {
         value: function () {
             parent.update.call(this);
             // Move gameObjects
-            // TODO: Consider how the gameObjectManager can provide one general method here
+            // TODO: Consider how the gameObjectManager can provide general methods here
             this.gameObjectsManager.manageObstacles(this.gameObjects);
             this.gameObjectsManager.movePlayer(this.player);
             // Check for collision: TODO in the game-3-objects-manager.js
@@ -1329,7 +1336,7 @@ module.exports = (function (parent) {
     return game3;
 }(require('./game.js')));
 
-},{"./game-3-Objects-Manager.js":9,"./game-3-renderer.js":10,"./game-object-factory.js":15,"./game.js":17,"./player.js":19}],12:[function(require,module,exports){
+},{"./game-3-Objects-Manager.js":9,"./game-3-renderer.js":10,"./game-object-factory.js":15,"./game.js":18,"./player.js":20}],12:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4Renderer = Object.create(parent);
     // Consider declaring here a private variable to hold your Canvas Context or SVG element.
@@ -1354,7 +1361,7 @@ module.exports = (function (parent) {
 
     return game4Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":22}],13:[function(require,module,exports){
+},{"./renderer.js":23}],13:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4 = Object.create(parent);
 
@@ -1379,7 +1386,7 @@ module.exports = (function (parent) {
 
     return game4;
 }(require('./game.js')));
-},{"./game.js":17}],14:[function(require,module,exports){
+},{"./game.js":18}],14:[function(require,module,exports){
 module.exports = (function() {
     var gameError = {
         NotImplementedError: function (message) {
@@ -1397,24 +1404,68 @@ module.exports = (function () {
     var rectangle = require('./rectangle.js'),
         rectangleWithText = require('./rectangle-with-text.js'),
         triangle = require('./triangle.js'),
-        circle = require('./circle.js');
+        circle = require('./circle.js'),
+        SAT = require('sat');
+
 
     return {
-        getRectangle: function (xCoordinate, yCoordinate, width, height, collisionProfile, fill, stroke, strokeWidth) {
+        getRectangle: function (xCoordinate, yCoordinate, width, height, fill, stroke, strokeWidth) {
+            var collisionProfile = new SAT.Box(new SAT.Vector(xCoordinate, yCoordinate), width, height).toPolygon();
+
             return Object.create(rectangle).init(xCoordinate, yCoordinate, width, height, collisionProfile, fill, stroke, strokeWidth);
         },
-        getRectangleWithText: function (xCoordinate, yCoordinate, width, height, collisionProfile, fill, stroke, strokeWidth, text) {
+        getRectangleWithText: function (xCoordinate, yCoordinate, width, height, fill, stroke, strokeWidth, text) {
+            var collisionProfile = new SAT.Box(new SAT.Vector(xCoordinate, yCoordinate), width, height).toPolygon();
+
             return Object.create(rectangleWithText).init(xCoordinate, yCoordinate, width, height, collisionProfile, fill, stroke, strokeWidth, text);
         },
-        getTriangle: function (xCoordinateA, yCoordinateA, xCoordinateB, yCoordinateB, xCoordinateC, yCoordinateC, collisionProfile, fill, stroke, strokeWidth) {
+        getTriangle: function (xCoordinateA, yCoordinateA, xCoordinateB, yCoordinateB, xCoordinateC, yCoordinateC, fill, stroke, strokeWidth) {
+            var aAbsolute = new SAT.Vector(xCoordinateA, yCoordinateA),
+                aRelativeToA = new SAT.Vector(0, 0),
+                bRelativeToA = new SAT.Vector(xCoordinateB - xCoordinateA, yCoordinateB - yCoordinateA),
+                cRelativeToA = new SAT.Vector(xCoordinateC - xCoordinateA, yCoordinateC - yCoordinateA),
+                collisionProfile = new SAT.Polygon(aAbsolute, [aRelativeToA, bRelativeToA, cRelativeToA]);
+
             return Object.create(triangle).init(xCoordinateA, yCoordinateA, xCoordinateB, yCoordinateB, xCoordinateC, yCoordinateC, collisionProfile, fill, stroke, strokeWidth);
         },
-        getCircle: function (xCoordinate, yCoordinate, radius, collisionProfile, fill, stroke, strokeWidth) {
+        getCircle: function (xCoordinate, yCoordinate, radius, fill, stroke, strokeWidth) {
+            var collisionProfile = new SAT.Circle(new SAT.Vector(xCoordinate, yCoordinate), radius);
+
             return Object.create(circle).init(xCoordinate, yCoordinate, radius, collisionProfile, fill, stroke, strokeWidth);
         }
     };
 }());
-},{"./circle.js":3,"./rectangle-with-text.js":20,"./rectangle.js":21,"./triangle.js":24}],16:[function(require,module,exports){
+},{"./circle.js":3,"./rectangle-with-text.js":21,"./rectangle.js":22,"./triangle.js":25,"sat":1}],16:[function(require,module,exports){
+module.exports = (function() {
+    var gameObjectManager = {},
+        validator = require('./validator.js'),
+        triangle = require('./triangle.js');
+
+    Object.defineProperty(gameObjectManager, 'move', {
+        value: function (gameObject, dx, dy) {
+            validator.validateIfGameObject(gameObject, 'gameObject to move');
+            validator.validateIfRealNumber(dx);
+            validator.validateIfRealNumber(dy);
+
+            gameObject.xCoordinate += dx;
+            gameObject.yCoordinate += dy;
+
+            gameObject.collisionProfile.pos.x += dx;
+            gameObject.collisionProfile.pos.y += dy;
+
+            if (triangle.isPrototypeOf(gameObject)) {
+                gameObject.xCoordinateB += dx;
+                gameObject.yCoordinateB += dy;
+
+                gameObject.xCoordinateC += dx;
+                gameObject.yCoordinateC += dy;
+            }
+        }
+    });
+
+    return gameObjectManager;
+}());
+},{"./triangle.js":25,"./validator.js":26}],17:[function(require,module,exports){
 //TODO: make a gameObjectFactory
 module.exports = (function () {
     var gameObject = {},
@@ -1458,7 +1509,7 @@ module.exports = (function () {
             return this._collisionProfile;
         },
         set: function (value) {
-            //validator.validateIfCollisionProfile(value, 'collisionProfile');
+            validator.validateIfCollisionProfile(value, 'collisionProfile');
             this._collisionProfile = value;
         }
     });
@@ -1501,7 +1552,7 @@ module.exports = (function () {
 
     return gameObject;
 }());
-},{"./validator.js":25}],17:[function(require,module,exports){
+},{"./validator.js":26}],18:[function(require,module,exports){
 module.exports = (function () {
     var game = {},
         validator = require('./validator.js');
@@ -1625,7 +1676,7 @@ module.exports = (function () {
 
     return game;
 }());
-},{"./validator.js":25}],18:[function(require,module,exports){
+},{"./validator.js":26}],19:[function(require,module,exports){
 module.exports = (function() {
     var initializator = {};
     Object.defineProperty(initializator, 'initializeGame1', {
@@ -1653,7 +1704,7 @@ module.exports = (function() {
     });
     return initializator;
 }());
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = (function() {
     var player = {},
         validator = require('./validator.js');
@@ -1689,7 +1740,7 @@ module.exports = (function() {
 
     return player;
 }());
-},{"./validator.js":25}],20:[function(require,module,exports){
+},{"./validator.js":26}],21:[function(require,module,exports){
 module.exports = (function(parent) {
     var rectangleWithText = Object.create(parent),
         validator = require('./validator.js');
@@ -1715,7 +1766,7 @@ module.exports = (function(parent) {
 
     return rectangleWithText;
 }(require('./rectangle.js')));
-},{"./rectangle.js":21,"./validator.js":25}],21:[function(require,module,exports){
+},{"./rectangle.js":22,"./validator.js":26}],22:[function(require,module,exports){
 module.exports = (function (parent) {
     var rectangle = Object.create(parent),
         validator = require('./validator.js');
@@ -1753,12 +1804,12 @@ module.exports = (function (parent) {
     Object.defineProperty(rectangle, 'getCoordinatesAsArray', {
         value: function () {
             var coordinatesAsArray = parent.getCoordinatesAsArray.call(this),
-                bX = this.xCoordinate,
-                bY = this.yCoordinate + this.height,
+                bX = this.xCoordinate + this.width,
+                bY = this.yCoordinate,
                 cX = this.xCoordinate + this.width,
                 cY = this.yCoordinate + this.height,
-                dX = this.xCoordinate + this.width,
-                dY = this.yCoordinate;
+                dX = this.xCoordinate,
+                dY = this.yCoordinate + this.height;
 
             coordinatesAsArray = coordinatesAsArray.concat([bX, bY, cX, cY, dX, dY]);
             return coordinatesAsArray;
@@ -1767,7 +1818,7 @@ module.exports = (function (parent) {
 
     return rectangle;
 }(require('./game-object.js')));
-},{"./game-object.js":16,"./validator.js":25}],22:[function(require,module,exports){
+},{"./game-object.js":17,"./validator.js":26}],23:[function(require,module,exports){
 module.exports = (function() {
     var renderer = {},
         gameError = require('./game-errors.js');
@@ -1786,10 +1837,10 @@ module.exports = (function() {
 
     return renderer;
 }());
-},{"./game-errors.js":14}],23:[function(require,module,exports){
+},{"./game-errors.js":14}],24:[function(require,module,exports){
 var run = require('./application.js');
 run();
-},{"./application.js":2}],24:[function(require,module,exports){
+},{"./application.js":2}],25:[function(require,module,exports){
 module.exports = (function (parent) {
     var triangle = Object.create(parent),
         validator = require('./validator.js');
@@ -1876,7 +1927,7 @@ module.exports = (function (parent) {
     return triangle;
 }(require('./game-object.js')));
 
-},{"./game-object.js":16,"./validator.js":25}],25:[function(require,module,exports){
+},{"./game-object.js":17,"./validator.js":26}],26:[function(require,module,exports){
 module.exports = (function () {
     var validator = {},
         CONSTANTS = require('./constants.js');
@@ -2018,4 +2069,4 @@ module.exports = (function () {
 
     return validator;
 }());
-},{"./constants.js":4,"./game-object.js":16,"./player.js":19,"./renderer.js":22,"sat":1}]},{},[4,14,25,16,3,24,21,20,15,19,22,5,7,10,12,9,17,6,8,11,13,18,2,23]);
+},{"./constants.js":4,"./game-object.js":17,"./player.js":20,"./renderer.js":23,"sat":1}]},{},[4,14,26,17,3,25,22,21,15,20,23,5,7,10,12,9,18,6,8,11,13,19,2,24]);

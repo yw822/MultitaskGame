@@ -35,12 +35,12 @@ module.exports = (function (parent) {
     Object.defineProperty(rectangle, 'getCoordinatesAsArray', {
         value: function () {
             var coordinatesAsArray = parent.getCoordinatesAsArray.call(this),
-                bX = this.xCoordinate,
-                bY = this.yCoordinate + this.height,
+                bX = this.xCoordinate + this.width,
+                bY = this.yCoordinate,
                 cX = this.xCoordinate + this.width,
                 cY = this.yCoordinate + this.height,
-                dX = this.xCoordinate + this.width,
-                dY = this.yCoordinate;
+                dX = this.xCoordinate,
+                dY = this.yCoordinate + this.height;
 
             coordinatesAsArray = coordinatesAsArray.concat([bX, bY, cX, cY, dX, dY]);
             return coordinatesAsArray;

@@ -41,7 +41,7 @@ module.exports = (function () {
             return this._collisionProfile;
         },
         set: function (value) {
-            //validator.validateIfCollisionProfile(value, 'collisionProfile');
+            validator.validateIfCollisionProfile(value, 'collisionProfile');
             this._collisionProfile = value;
         }
     });
