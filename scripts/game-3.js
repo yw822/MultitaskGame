@@ -26,13 +26,12 @@ module.exports = (function (parent) {
     Object.defineProperty(game3, 'update', {
         value: function () {
             parent.update.call(this);
-            // Move gameObjects
             // TODO: Consider how the gameObjectManager can provide general methods here
             this.gameObjectsManager.manageObstacles(this.gameObjects);
             this.gameObjectsManager.startChangeDirectionListener(this);
             this.gameObjectsManager.movePlayer(this.player);
             // Check for collision: TODO in the game-3-objects-manager.js
-            this.gameObjectsManager.manageCollisions(this.player, this.gameObjects);
+            this.gameObjectsManager.manageCollisions(this, this.player, this.gameObjects);
         }
     });
 

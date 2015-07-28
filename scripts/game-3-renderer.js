@@ -4,7 +4,7 @@ module.exports = (function (parent) {
             //TODO: extract this hardcoded values in constants width, height.
             container:  document.getElementById('game-3'),
             width: 300,
-            height: 200
+            height: 201
         }),
         layer = new Kinetic.Layer();
 
@@ -25,7 +25,7 @@ module.exports = (function (parent) {
                     strokeWidth: gameObject.strokeWidth,
                     closed: true,
                 //TODO: extract this hardcoded value tension
-                    tension: 0.4
+                    //tension: 0.4
                 });
 
             layer.add(figure);

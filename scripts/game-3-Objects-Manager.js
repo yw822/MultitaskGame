@@ -1,5 +1,6 @@
 ﻿module.exports = (function (parent) {
-    var game3ObjectsManager = Object.create(parent);
+    var game3ObjectsManager = Object.create(parent),
+        sat = require('sat');
 
     // Magic numbers --> constants in the constants.js
 
@@ -73,25 +74,27 @@
     });    
 
     Object.defineProperty(game3ObjectsManager, 'movePlayer', {
-        //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
         value: function (player) {
             if (player.shape.yCoordinateA < 180 && player.direction === 'down') {
-                player.shape.yCoordinateA += 1; // some variable called speed.
-                player.shape.yCoordinateB += 1; // some variable called speed.
-                player.shape.yCoordinateC += 1; // some variable called speed.
+                parent.move(player.shape, 0, 1);
             }
 
             if (player.shape.yCoordinateA >= 0 && player.direction === 'up') {
-                player.shape.yCoordinateA -= 1; // some variable called speed.
-                player.shape.yCoordinateB -= 1; // some variable called speed.
-                player.shape.yCoordinateC -= 1; // some variable called speed.
+                parent.move(player.shape, 0, -1);
             }
         }
     });
 
     Object.defineProperty(game3ObjectsManager, 'manageCollisions', {
-        value: function (player, obstacles) {
-            // TODO: implement collision logic
+        value: function (game, player, obstacles) {
+            var collisionHappened = obstacles.some(function(obstacle){
+                return sat.testPolygonPolygon(obstacle.collisionProfile, player.shape.collisionProfile);
+            });
+            
+            if (collisionHappened) {
+                // Uncomment this to have a game over condition.
+                // game.over = true;
+            }
         }
     });
 

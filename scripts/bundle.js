@@ -1160,7 +1160,8 @@ module.exports = (function (parent) {
 }(require('./game.js')));
 },{"./game.js":18}],9:[function(require,module,exports){
 module.exports = (function (parent) {
-    var game3ObjectsManager = Object.create(parent);
+    var game3ObjectsManager = Object.create(parent),
+        sat = require('sat');
 
     // Magic numbers --> constants in the constants.js
 
@@ -1234,38 +1235,40 @@ module.exports = (function (parent) {
     });    
 
     Object.defineProperty(game3ObjectsManager, 'movePlayer', {
-        //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
         value: function (player) {
             if (player.shape.yCoordinateA < 180 && player.direction === 'down') {
-                player.shape.yCoordinateA += 1; // some variable called speed.
-                player.shape.yCoordinateB += 1; // some variable called speed.
-                player.shape.yCoordinateC += 1; // some variable called speed.
+                parent.move(player.shape, 0, 1);
             }
 
             if (player.shape.yCoordinateA >= 0 && player.direction === 'up') {
-                player.shape.yCoordinateA -= 1; // some variable called speed.
-                player.shape.yCoordinateB -= 1; // some variable called speed.
-                player.shape.yCoordinateC -= 1; // some variable called speed.
+                parent.move(player.shape, 0, -1);
             }
         }
     });
 
     Object.defineProperty(game3ObjectsManager, 'manageCollisions', {
-        value: function (player, obstacles) {
-            // TODO: implement collision logic
+        value: function (game, player, obstacles) {
+            var collisionHappened = obstacles.some(function(obstacle){
+                return sat.testPolygonPolygon(obstacle.collisionProfile, player.shape.collisionProfile);
+            });
+            
+            if (collisionHappened) {
+                // Uncomment this to have a game over condition.
+                // game.over = true;
+            }
         }
     });
 
     return game3ObjectsManager;
 }(require('./game-object-manager.js')));
-},{"./game-object-factory.js":15,"./game-object-manager.js":16}],10:[function(require,module,exports){
+},{"./game-object-factory.js":15,"./game-object-manager.js":16,"sat":1}],10:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3Renderer = Object.create(parent),
         stage = new Kinetic.Stage({
             //TODO: extract this hardcoded values in constants width, height.
             container:  document.getElementById('game-3'),
             width: 300,
-            height: 200
+            height: 201
         }),
         layer = new Kinetic.Layer();
 
@@ -1286,7 +1289,7 @@ module.exports = (function (parent) {
                     strokeWidth: gameObject.strokeWidth,
                     closed: true,
                 //TODO: extract this hardcoded value tension
-                    tension: 0.4
+                    //tension: 0.4
                 });
 
             layer.add(figure);
@@ -1329,13 +1332,12 @@ module.exports = (function (parent) {
     Object.defineProperty(game3, 'update', {
         value: function () {
             parent.update.call(this);
-            // Move gameObjects
             // TODO: Consider how the gameObjectManager can provide general methods here
             this.gameObjectsManager.manageObstacles(this.gameObjects);
             this.gameObjectsManager.startChangeDirectionListener(this);
             this.gameObjectsManager.movePlayer(this.player);
             // Check for collision: TODO in the game-3-objects-manager.js
-            this.gameObjectsManager.manageCollisions(this.player, this.gameObjects);
+            this.gameObjectsManager.manageCollisions(this, this.player, this.gameObjects);
         }
     });
 
