@@ -72,13 +72,10 @@ module.exports = (function () {
             this.renderer.clearStage();
             this.renderer.render(this.player.shape);
             this.gameObjects.forEach(this.renderer.render);
-            // Move game objects
-            // Check for collision
-
-            //throw new gameError.NotImplementedError('Your game needs to implement the "abstract" method update');
         }
     });
 
+    // The following three methods may or may not be used. Delete them eventually, when project is done.
     Object.defineProperty(game, 'addGameObject', {
         value: function (value) {
             validator.validateIfGameObject(value, 'gameObject');

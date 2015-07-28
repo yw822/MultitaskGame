@@ -1,11 +1,33 @@
-module.exports = (function() {
-    var CONSTANTS = {};
+module.exports = (function () {
 
-    Object.defineProperty(CONSTANTS, 'DEFAULT_VALUE_NAME', {
-        value: 'Value',
-        configurable: false,
-        writable: false,
-        enumerable: true
-    });
-    return CONSTANTS;
+    return {
+        DEFAULT_VALUE_NAME: 'Value',
+
+        CANVAS_WIDTH: 300,
+        CANVAS_HEIGHT: 201,
+        // game3 constants:        
+        GAME3_PLAYER_TOP_LEFT_POINT_X: 50,
+        GAME3_PLAYER_TOP_LEFT_POINT_Y: 180,
+        GAME3_PLAYER_BOTTOM_LEFT_POINT_X: 50,
+        GAME3_PLAYER_BOTTOM_LEFT_POINT_Y: 200,
+        GAME3_PLAYER_RIGHT_POINT_X: 65,
+        GAME3_PLAYER_RIGHT_POINT_Y: 190,
+        GAME3_PLAYER_MIN_Y: 0,
+        GAME3_PLAYER_MAX_Y: 180,
+        GAME3_PLAYER_STEP: 1,
+        GAME3_PLAYER_FILL: 'azure',
+        GAME3_PLAYER_STROKE: 'purple',
+        GAME3_PLAYER_STROKE_WIDTH: 2,
+        GAME3_OBSTACLE_START_POINT_X: 300,
+        GAME3_POINT_TO_RELEASE_NEW_OBSTACLE_X: 140,
+        GAME3_POINT_TO_REMOVE_OBSTACLE_X: 0,
+        GAME3_OBSTACLE_WIDTH: 15,
+        GAME3_OBSTACLE_HEIGHT: 50,
+        GAME3_OBSTACLE_MAX_Y: 150,
+        GAME3_OBSTACLE_STEP: 1,
+        GAME3_OBSTACLE_FILL: 'black',
+        GAME3_OBSTACLE_STROKE: 'none',
+        GAME3_OBSTACLE_STROKE_WIDTH: 1,
+       
+    };
 }());

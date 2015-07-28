@@ -1,8 +1,7 @@
 ﻿module.exports = (function (parent) {
     var game3ObjectsManager = Object.create(parent),
-        sat = require('sat');
-
-    // Magic numbers --> constants in the constants.js
+        sat = require('sat'),
+        constants = require('./constants.js');
 
     // Obstacles logic
     function maintainSpecifiedNumberOfEnemies(obstacles) {
@@ -12,38 +11,36 @@
             newObstacle;
 
         if (obstacles.length === 0) {
-            randomYCoord = Math.random() * 150;
-            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'black', 'none', 1);
+            randomYCoord = Math.random() * constants.GAME3_OBSTACLE_MAX_Y;
+            newObstacle = gameObjectFactory.getRectangle(constants.GAME3_OBSTACLE_START_POINT_X, randomYCoord,
+                constants.GAME3_OBSTACLE_WIDTH, constants.GAME3_OBSTACLE_HEIGHT, constants.GAME3_OBSTACLE_FILL,
+                constants.GAME3_OBSTACLE_STROKE, constants.GAME3_OBSTACLE_STROKE_WIDTH);
             obstacles.push(newObstacle);
         }
 
         if (obstacles.some(
                 function (obstacle) {
-            return obstacle.xCoordinate === 140;
+            return obstacle.xCoordinate === constants.GAME3_POINT_TO_RELEASE_NEW_OBSTACLE_X;
         })) {
-            randomYCoord = Math.random() * 150;
-            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'black', 'none', 1);
+            randomYCoord = Math.random() * constants.GAME3_OBSTACLE_MAX_Y;
+            newObstacle = gameObjectFactory.getRectangle(constants.GAME3_OBSTACLE_START_POINT_X, randomYCoord,
+                constants.GAME3_OBSTACLE_WIDTH, constants.GAME3_OBSTACLE_HEIGHT, constants.GAME3_OBSTACLE_FILL,
+                constants.GAME3_OBSTACLE_STROKE, constants.GAME3_OBSTACLE_STROKE_WIDTH);
             obstacles.push(newObstacle);
         }
 
         if (obstacles.some(
                 function (obstacle, index) {
-            return obstacle.xCoordinate === 0;
+            return obstacle.xCoordinate === constants.GAME3_POINT_TO_REMOVE_OBSTACLE_X;
         })) {
             obstacles.splice(index, 1);
         }
     }       
 
     function moveEnemyObjects(obstacles) {
-        //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
-        obstacles.forEach(
-        //    function (obstacle) {
-        //    obstacle.xCoordinate -= 1; // some variable called speed.
-        //}
-            function (obstacle) {
-                parent.move(obstacle, -1, 0);
-            }
-        );
+        obstacles.forEach(function (obstacle) {
+            parent.move(obstacle, -constants.GAME3_OBSTACLE_STEP, 0);
+            });
     }
 
     Object.defineProperty(game3ObjectsManager, 'manageObstacles', {
@@ -71,16 +68,16 @@
                 }
             }
         }
-    });    
+    });
 
     Object.defineProperty(game3ObjectsManager, 'movePlayer', {
         value: function (player) {
-            if (player.shape.yCoordinateA < 180 && player.direction === 'down') {
-                parent.move(player.shape, 0, 1);
+            if (player.shape.yCoordinateA < constants.GAME3_PLAYER_MAX_Y && player.direction === 'down') {
+                parent.move(player.shape, 0, constants.GAME3_PLAYER_STEP);
             }
 
-            if (player.shape.yCoordinateA >= 0 && player.direction === 'up') {
-                parent.move(player.shape, 0, -1);
+            if (player.shape.yCoordinateA >= constants.GAME3_PLAYER_MIN_Y && player.direction === 'up') {
+                parent.move(player.shape, 0, -constants.GAME3_PLAYER_STEP);
             }
         }
     });

@@ -985,41 +985,14 @@
 },{}],2:[function(require,module,exports){
 // TODO: separate the game initialization logic in another script.
 module.exports = function () {
-    var gameOver = false,
-        game1 = require('./game-1.js'),
-        game2 = require('./game-2.js'),
-        game3 = require('./game-3.js'),
-        game4 = require('./game-4.js'),
-        //game_1 = Object.create(game1).init(),
-        //game_2 = Object.create(game2).init(),
-        game_3 = Object.create(game3).init(),
-        //game_4 = Object.create(game4).init(),
-        games = [/*game_1, game_2,*/ game_3, /*game_4*/];
+    var initializator = require('./initializator.js'),
+        games = initializator.initiateGames(),
+        engine = require('./mainEngine.js');
 
-    function updateGames() {
-        games.forEach(function (game) {
-            game.update();
-        });
-    }
-
-    function checkGameOver() {
-        gameOver = games.some(function (game) {
-            return game.over;
-        });
-    }
-
-    function animate() {
-        updateGames();
-        checkGameOver();
-        if (!gameOver) {
-            requestAnimationFrame(animate);
-        }
-    }
-    console.log('in application');
-
-    animate();
+    // This will be linked to an event here.
+    engine.runGames(games);        
 }
-},{"./game-1.js":6,"./game-2.js":8,"./game-3.js":11,"./game-4.js":13}],3:[function(require,module,exports){
+},{"./initializator.js":19,"./mainEngine.js":20}],3:[function(require,module,exports){
 module.exports = (function (parent) {
     var circle = Object.create(parent),
         validator = require('./validator.js');
@@ -1046,17 +1019,39 @@ module.exports = (function (parent) {
     return circle;
 }(require('./game-object.js')));
 
-},{"./game-object.js":17,"./validator.js":26}],4:[function(require,module,exports){
-module.exports = (function() {
-    var CONSTANTS = {};
+},{"./game-object.js":17,"./validator.js":27}],4:[function(require,module,exports){
+module.exports = (function () {
 
-    Object.defineProperty(CONSTANTS, 'DEFAULT_VALUE_NAME', {
-        value: 'Value',
-        configurable: false,
-        writable: false,
-        enumerable: true
-    });
-    return CONSTANTS;
+    return {
+        DEFAULT_VALUE_NAME: 'Value',
+
+        CANVAS_WIDTH: 300,
+        CANVAS_HEIGHT: 201,
+        // game3 constants:        
+        GAME3_PLAYER_TOP_LEFT_POINT_X: 50,
+        GAME3_PLAYER_TOP_LEFT_POINT_Y: 180,
+        GAME3_PLAYER_BOTTOM_LEFT_POINT_X: 50,
+        GAME3_PLAYER_BOTTOM_LEFT_POINT_Y: 200,
+        GAME3_PLAYER_RIGHT_POINT_X: 65,
+        GAME3_PLAYER_RIGHT_POINT_Y: 190,
+        GAME3_PLAYER_MIN_Y: 0,
+        GAME3_PLAYER_MAX_Y: 180,
+        GAME3_PLAYER_STEP: 1,
+        GAME3_PLAYER_FILL: 'azure',
+        GAME3_PLAYER_STROKE: 'purple',
+        GAME3_PLAYER_STROKE_WIDTH: 2,
+        GAME3_OBSTACLE_START_POINT_X: 300,
+        GAME3_POINT_TO_RELEASE_NEW_OBSTACLE_X: 140,
+        GAME3_POINT_TO_REMOVE_OBSTACLE_X: 0,
+        GAME3_OBSTACLE_WIDTH: 15,
+        GAME3_OBSTACLE_HEIGHT: 50,
+        GAME3_OBSTACLE_MAX_Y: 150,
+        GAME3_OBSTACLE_STEP: 1,
+        GAME3_OBSTACLE_FILL: 'black',
+        GAME3_OBSTACLE_STROKE: 'none',
+        GAME3_OBSTACLE_STROKE_WIDTH: 1,
+       
+    };
 }());
 },{}],5:[function(require,module,exports){
 module.exports = (function (parent) {
@@ -1083,7 +1078,7 @@ module.exports = (function (parent) {
 
     return game1Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":23}],6:[function(require,module,exports){
+},{"./renderer.js":24}],6:[function(require,module,exports){
 module.exports = (function (parent) {
     var game1 = Object.create(parent);
 
@@ -1133,7 +1128,7 @@ module.exports = (function (parent) {
 
     return game2Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":23}],8:[function(require,module,exports){
+},{"./renderer.js":24}],8:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2 = Object.create(parent);
 
@@ -1161,9 +1156,8 @@ module.exports = (function (parent) {
 },{"./game.js":18}],9:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3ObjectsManager = Object.create(parent),
-        sat = require('sat');
-
-    // Magic numbers --> constants in the constants.js
+        sat = require('sat'),
+        constants = require('./constants.js');
 
     // Obstacles logic
     function maintainSpecifiedNumberOfEnemies(obstacles) {
@@ -1173,38 +1167,36 @@ module.exports = (function (parent) {
             newObstacle;
 
         if (obstacles.length === 0) {
-            randomYCoord = Math.random() * 150;
-            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'black', 'none', 1);
+            randomYCoord = Math.random() * constants.GAME3_OBSTACLE_MAX_Y;
+            newObstacle = gameObjectFactory.getRectangle(constants.GAME3_OBSTACLE_START_POINT_X, randomYCoord,
+                constants.GAME3_OBSTACLE_WIDTH, constants.GAME3_OBSTACLE_HEIGHT, constants.GAME3_OBSTACLE_FILL,
+                constants.GAME3_OBSTACLE_STROKE, constants.GAME3_OBSTACLE_STROKE_WIDTH);
             obstacles.push(newObstacle);
         }
 
         if (obstacles.some(
                 function (obstacle) {
-            return obstacle.xCoordinate === 140;
+            return obstacle.xCoordinate === constants.GAME3_POINT_TO_RELEASE_NEW_OBSTACLE_X;
         })) {
-            randomYCoord = Math.random() * 150;
-            newObstacle = gameObjectFactory.getRectangle(300, randomYCoord, 15, 50, 'black', 'none', 1);
+            randomYCoord = Math.random() * constants.GAME3_OBSTACLE_MAX_Y;
+            newObstacle = gameObjectFactory.getRectangle(constants.GAME3_OBSTACLE_START_POINT_X, randomYCoord,
+                constants.GAME3_OBSTACLE_WIDTH, constants.GAME3_OBSTACLE_HEIGHT, constants.GAME3_OBSTACLE_FILL,
+                constants.GAME3_OBSTACLE_STROKE, constants.GAME3_OBSTACLE_STROKE_WIDTH);
             obstacles.push(newObstacle);
         }
 
         if (obstacles.some(
                 function (obstacle, index) {
-            return obstacle.xCoordinate === 0;
+            return obstacle.xCoordinate === constants.GAME3_POINT_TO_REMOVE_OBSTACLE_X;
         })) {
             obstacles.splice(index, 1);
         }
     }       
 
     function moveEnemyObjects(obstacles) {
-        //TODO: use gameObjectManager (<-- the parent) method move, because it moves the collision profile with the figure.
-        obstacles.forEach(
-        //    function (obstacle) {
-        //    obstacle.xCoordinate -= 1; // some variable called speed.
-        //}
-            function (obstacle) {
-                parent.move(obstacle, -1, 0);
-            }
-        );
+        obstacles.forEach(function (obstacle) {
+            parent.move(obstacle, -constants.GAME3_OBSTACLE_STEP, 0);
+            });
     }
 
     Object.defineProperty(game3ObjectsManager, 'manageObstacles', {
@@ -1232,16 +1224,16 @@ module.exports = (function (parent) {
                 }
             }
         }
-    });    
+    });
 
     Object.defineProperty(game3ObjectsManager, 'movePlayer', {
         value: function (player) {
-            if (player.shape.yCoordinateA < 180 && player.direction === 'down') {
-                parent.move(player.shape, 0, 1);
+            if (player.shape.yCoordinateA < constants.GAME3_PLAYER_MAX_Y && player.direction === 'down') {
+                parent.move(player.shape, 0, constants.GAME3_PLAYER_STEP);
             }
 
-            if (player.shape.yCoordinateA >= 0 && player.direction === 'up') {
-                parent.move(player.shape, 0, -1);
+            if (player.shape.yCoordinateA >= constants.GAME3_PLAYER_MIN_Y && player.direction === 'up') {
+                parent.move(player.shape, 0, -constants.GAME3_PLAYER_STEP);
             }
         }
     });
@@ -1261,22 +1253,20 @@ module.exports = (function (parent) {
 
     return game3ObjectsManager;
 }(require('./game-object-manager.js')));
-},{"./game-object-factory.js":15,"./game-object-manager.js":16,"sat":1}],10:[function(require,module,exports){
+},{"./constants.js":4,"./game-object-factory.js":15,"./game-object-manager.js":16,"sat":1}],10:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3Renderer = Object.create(parent),
+        constants = require('./constants.js'),
         stage = new Kinetic.Stage({
-            //TODO: extract this hardcoded values in constants width, height.
             container:  document.getElementById('game-3'),
-            width: 300,
-            height: 201
+            width: constants.CANVAS_WIDTH,            
+            height: constants.CANVAS_HEIGHT
         }),
         layer = new Kinetic.Layer();
 
     Object.defineProperty(game3Renderer, 'clearStage', {
         value: function () {
             layer.removeChildren();
-            //Delete this line!
-            // parent.clearStage.call(this);
         }
     });   
 
@@ -1287,48 +1277,31 @@ module.exports = (function (parent) {
                     stroke: gameObject.stroke,
                     fill: gameObject.fill,
                     strokeWidth: gameObject.strokeWidth,
-                    closed: true,
-                //TODO: extract this hardcoded value tension
-                    //tension: 0.4
+                    closed: true
                 });
 
             layer.add(figure);
             stage.add(layer);
-
-            //Delete this line!
-            //parent.render.call(this, gameObject);
         }
     });
 
     return game3Renderer;
 }(require('./renderer.js')));
 
-},{"./renderer.js":23}],11:[function(require,module,exports){
+},{"./constants.js":4,"./renderer.js":24}],11:[function(require,module,exports){
 module.exports = (function (parent) {
-     var game3 = Object.create(parent);       
+    var game3 = Object.create(parent);
+    
+    // Not needed for this game. May be needed for the others.
+    //Object.defineProperty(game3, 'init', {
+    //    value: function (renderer, somePlayer, obstacles, gameObjectsManager) {
+    //        parent.init.call(this, renderer, somePlayer, [], gameObjectsManager);
 
-    // When the game is over, please set game3.over = true;
+    //        return this;
+    //    }
+    //});
 
-    // If you need to initialize the state of your game, please use this property. Otherwise feel free to
-    // remove it from the code. The parent.init will be called due to the prototype chain.
-    Object.defineProperty(game3, 'init', {
-        value: function () {
-            //TODO: This vars must be provided, and not hardcoded here. Move them in the initializator.
-            var gameObjectFactory = require('./game-object-factory.js'),
-                game3Renderer = require('./game-3-renderer.js'),
-                player = require('./player.js'),
-                game3ObjectsManager = require('./game-3-Objects-Manager.js'),
-                playerShape = gameObjectFactory.getTriangle(50, 180, 50, 200, 65, 190, 'azure', 'purple', 2),
-                renderer = Object.create(game3Renderer),
-                somePlayer = Object.create(player).init(playerShape, 'down'),
-                gameObjectsManager = Object.create(game3ObjectsManager);            
-
-            parent.init.call(this, renderer, somePlayer, [], gameObjectsManager);
-            return this;
-        }
-    });
-
-    //TODO: check if it is possible to move this logic to parent
+    //TODO: check if it is possible to move this logic to parent. Not for now.
     Object.defineProperty(game3, 'update', {
         value: function () {
             parent.update.call(this);
@@ -1336,7 +1309,7 @@ module.exports = (function (parent) {
             this.gameObjectsManager.manageObstacles(this.gameObjects);
             this.gameObjectsManager.startChangeDirectionListener(this);
             this.gameObjectsManager.movePlayer(this.player);
-            // Check for collision: TODO in the game-3-objects-manager.js
+
             this.gameObjectsManager.manageCollisions(this, this.player, this.gameObjects);
         }
     });
@@ -1344,7 +1317,7 @@ module.exports = (function (parent) {
     return game3;
 }(require('./game.js')));
 
-},{"./game-3-Objects-Manager.js":9,"./game-3-renderer.js":10,"./game-object-factory.js":15,"./game.js":18,"./player.js":20}],12:[function(require,module,exports){
+},{"./game.js":18}],12:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4Renderer = Object.create(parent);
     // Consider declaring here a private variable to hold your Canvas Context or SVG element.
@@ -1369,7 +1342,7 @@ module.exports = (function (parent) {
 
     return game4Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":23}],13:[function(require,module,exports){
+},{"./renderer.js":24}],13:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4 = Object.create(parent);
 
@@ -1443,7 +1416,7 @@ module.exports = (function () {
         }
     };
 }());
-},{"./circle.js":3,"./rectangle-with-text.js":21,"./rectangle.js":22,"./triangle.js":25,"sat":1}],16:[function(require,module,exports){
+},{"./circle.js":3,"./rectangle-with-text.js":22,"./rectangle.js":23,"./triangle.js":26,"sat":1}],16:[function(require,module,exports){
 module.exports = (function() {
     var gameObjectManager = {},
         validator = require('./validator.js'),
@@ -1473,7 +1446,7 @@ module.exports = (function() {
 
     return gameObjectManager;
 }());
-},{"./triangle.js":25,"./validator.js":26}],17:[function(require,module,exports){
+},{"./triangle.js":26,"./validator.js":27}],17:[function(require,module,exports){
 //TODO: make a gameObjectFactory
 module.exports = (function () {
     var gameObject = {},
@@ -1560,7 +1533,7 @@ module.exports = (function () {
 
     return gameObject;
 }());
-},{"./validator.js":26}],18:[function(require,module,exports){
+},{"./validator.js":27}],18:[function(require,module,exports){
 module.exports = (function () {
     var game = {},
         validator = require('./validator.js');
@@ -1635,13 +1608,10 @@ module.exports = (function () {
             this.renderer.clearStage();
             this.renderer.render(this.player.shape);
             this.gameObjects.forEach(this.renderer.render);
-            // Move game objects
-            // Check for collision
-
-            //throw new gameError.NotImplementedError('Your game needs to implement the "abstract" method update');
         }
     });
 
+    // The following three methods may or may not be used. Delete them eventually, when project is done.
     Object.defineProperty(game, 'addGameObject', {
         value: function (value) {
             validator.validateIfGameObject(value, 'gameObject');
@@ -1684,35 +1654,102 @@ module.exports = (function () {
 
     return game;
 }());
-},{"./validator.js":26}],19:[function(require,module,exports){
-module.exports = (function() {
-    var initializator = {};
-    Object.defineProperty(initializator, 'initializeGame1', {
-        value: function () {
-            //TODO: complete
-        }
-    });
+},{"./validator.js":27}],19:[function(require,module,exports){
+module.exports = (function () {
+    var constants = require('./constants.js'),
+        game1Prototype = require('./game-1.js'),
+        game2Prototype = require('./game-2.js'),
+        game3Prototype = require('./game-3.js'),
+        game4Prototype = require('./game-4.js'),
+        gameObjectFactory = require('./game-object-factory.js'),
+        game1RendererProto = require('./game-1-renderer.js'),
+        game2RendererProto = require('./game-2-renderer.js'),
+        game3RendererProto = require('./game-3-renderer.js'),
+        game4RendererProto = require('./game-4-renderer.js'),
+        //game1ObjectsManagerProto = require('./game-1-Objects-Manager.js'),        
+        //game2ObjectsManagerProto = require('./game-2-Objects-Manager.js'),
+        game3ObjectsManagerProto = require('./game-3-Objects-Manager.js'),
+        //game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
+        player = require('./player.js');
 
-    Object.defineProperty(initializator, 'initializeGame2', {
-        value: function () {
-            //TODO: complete
-        }
-    });
+    // Lots of constants - in the constants.js
 
-    Object.defineProperty(initializator, 'initializeGame3', {
-        value: function () {
-            //TODO: complete
-        }
-    });
+    function initializeGame1() {
+        //TODO: complete
+    }
 
-    Object.defineProperty(initializator, 'initializeGame4', {
-        value: function () {
-            //TODO: complete
+    function initializeGame2() {
+        //TODO: complete
+    }
+
+    function initializeGame3() {
+        var playerShape = gameObjectFactory.getTriangle(constants.GAME3_PLAYER_TOP_LEFT_POINT_X,constants.GAME3_PLAYER_TOP_LEFT_POINT_Y,
+                constants.GAME3_PLAYER_BOTTOM_LEFT_POINT_X,constants.GAME3_PLAYER_BOTTOM_LEFT_POINT_Y,constants.GAME3_PLAYER_RIGHT_POINT_X,
+                constants.GAME3_PLAYER_RIGHT_POINT_Y, constants.GAME3_PLAYER_FILL, constants.GAME3_PLAYER_STROKE, constants.GAME3_PLAYER_STROKE_WIDTH),
+            renderer = Object.create(game3RendererProto),
+            somePlayer = Object.create(player).init(playerShape, 'down'),
+            gameObjectsManager = Object.create(game3ObjectsManagerProto),
+            game3;
+
+        game3 = Object.create(game3Prototype).init(renderer, somePlayer, [], gameObjectsManager);
+
+        return game3;
+    }
+
+    function initializeGame4() {
+        //TODO: complete
+    }   
+
+    return {
+        initiateGames: function () {
+            var games = [],
+                game1 = initializeGame1(),
+                game2 = initializeGame2(),
+                game3 = initializeGame3(),
+                game4 = initializeGame4();
+
+            games.push(/*game1, game2,*/ game3/*, game4*/);
+
+            return games;
         }
-    });
-    return initializator;
+    };
 }());
-},{}],20:[function(require,module,exports){
+},{"./constants.js":4,"./game-1-renderer.js":5,"./game-1.js":6,"./game-2-renderer.js":7,"./game-2.js":8,"./game-3-Objects-Manager.js":9,"./game-3-renderer.js":10,"./game-3.js":11,"./game-4-renderer.js":12,"./game-4.js":13,"./game-object-factory.js":15,"./player.js":21}],20:[function(require,module,exports){
+module.exports = (function () {    
+    var engine = {},
+        games,
+        gameOver = false;
+    
+    function updateGames() {
+        games.forEach(function (game) {
+            game.update();
+        });
+    }
+
+    function checkGameOver() {
+        gameOver = games.some(function (game) {
+            return game.over;
+        });
+    }
+
+    function animate() {
+        updateGames();
+        checkGameOver();
+        if (!gameOver) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    Object.defineProperty(engine, 'runGames', {
+        value: function (gamesList) {
+            games = gamesList
+            animate();
+        }
+    });
+
+    return engine;
+}());
+},{}],21:[function(require,module,exports){
 module.exports = (function() {
     var player = {},
         validator = require('./validator.js');
@@ -1748,7 +1785,7 @@ module.exports = (function() {
 
     return player;
 }());
-},{"./validator.js":26}],21:[function(require,module,exports){
+},{"./validator.js":27}],22:[function(require,module,exports){
 module.exports = (function(parent) {
     var rectangleWithText = Object.create(parent),
         validator = require('./validator.js');
@@ -1774,7 +1811,7 @@ module.exports = (function(parent) {
 
     return rectangleWithText;
 }(require('./rectangle.js')));
-},{"./rectangle.js":22,"./validator.js":26}],22:[function(require,module,exports){
+},{"./rectangle.js":23,"./validator.js":27}],23:[function(require,module,exports){
 module.exports = (function (parent) {
     var rectangle = Object.create(parent),
         validator = require('./validator.js');
@@ -1826,7 +1863,7 @@ module.exports = (function (parent) {
 
     return rectangle;
 }(require('./game-object.js')));
-},{"./game-object.js":17,"./validator.js":26}],23:[function(require,module,exports){
+},{"./game-object.js":17,"./validator.js":27}],24:[function(require,module,exports){
 module.exports = (function() {
     var renderer = {},
         gameError = require('./game-errors.js');
@@ -1845,10 +1882,10 @@ module.exports = (function() {
 
     return renderer;
 }());
-},{"./game-errors.js":14}],24:[function(require,module,exports){
+},{"./game-errors.js":14}],25:[function(require,module,exports){
 var run = require('./application.js');
 run();
-},{"./application.js":2}],25:[function(require,module,exports){
+},{"./application.js":2}],26:[function(require,module,exports){
 module.exports = (function (parent) {
     var triangle = Object.create(parent),
         validator = require('./validator.js');
@@ -1935,7 +1972,7 @@ module.exports = (function (parent) {
     return triangle;
 }(require('./game-object.js')));
 
-},{"./game-object.js":17,"./validator.js":26}],26:[function(require,module,exports){
+},{"./game-object.js":17,"./validator.js":27}],27:[function(require,module,exports){
 module.exports = (function () {
     var validator = {},
         CONSTANTS = require('./constants.js');
@@ -2077,4 +2114,4 @@ module.exports = (function () {
 
     return validator;
 }());
-},{"./constants.js":4,"./game-object.js":17,"./player.js":20,"./renderer.js":23,"sat":1}]},{},[4,14,26,17,3,25,22,21,15,20,23,5,7,10,12,9,18,6,8,11,13,19,2,24]);
+},{"./constants.js":4,"./game-object.js":17,"./player.js":21,"./renderer.js":24,"sat":1}]},{},[4,14,27,17,3,26,23,22,15,21,24,5,7,10,12,9,18,6,8,11,13,19,2,25,20]);
