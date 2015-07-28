@@ -992,7 +992,7 @@ module.exports = function () {
     // This will be linked to an event here.
     engine.runGames(games);        
 }
-},{"./initializator.js":19,"./mainEngine.js":20}],3:[function(require,module,exports){
+},{"./initializator.js":22,"./mainEngine.js":23}],3:[function(require,module,exports){
 module.exports = (function (parent) {
     var circle = Object.create(parent),
         validator = require('./validator.js');
@@ -1019,7 +1019,7 @@ module.exports = (function (parent) {
     return circle;
 }(require('./game-object.js')));
 
-},{"./game-object.js":17,"./validator.js":27}],4:[function(require,module,exports){
+},{"./game-object.js":20,"./validator.js":30}],4:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -1055,6 +1055,42 @@ module.exports = (function () {
 }());
 },{}],5:[function(require,module,exports){
 module.exports = (function (parent) {
+    var game1ObjectsManager = Object.create(parent),
+        sat = require('sat'),
+        constants = require('./constants.js');
+    // Maybe some variable ballWeight which will deppend on where on the board it is
+    // and will affect the speed of rotation of the board.
+
+    // This will be different than the other games
+    Object.defineProperty(game1ObjectsManager, 'manageObstacles', {
+        value: function (obstacles) {
+        }
+    });
+
+    // This will be similar to the others, except we'll listen for the left/right arrows being pressed
+    Object.defineProperty(game1ObjectsManager, 'startChangeDirectionListener', {
+        value: function (game) {
+            // TODO:
+        }
+    });
+
+    // Could be with rotation of the canvas
+    Object.defineProperty(game1ObjectsManager, 'movePlayer', {
+        value: function (player) {
+            // TODO:
+        }
+    });
+    
+    Object.defineProperty(game1ObjectsManager, 'manageCollisions', {
+        value: function (/**/) {
+            // TODO: similar to the others, but when no collision - game over.
+        }
+    });
+
+    return game1ObjectsManager;
+}(require('./game-object-manager.js')));
+},{"./constants.js":4,"./game-object-manager.js":19,"sat":1}],6:[function(require,module,exports){
+module.exports = (function (parent) {
     var game1Renderer = Object.create(parent);
     // Consider declaring here a private variable to hold your Canvas Context or SVG element.
 
@@ -1078,7 +1114,7 @@ module.exports = (function (parent) {
 
     return game1Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":24}],6:[function(require,module,exports){
+},{"./renderer.js":27}],7:[function(require,module,exports){
 module.exports = (function (parent) {
     var game1 = Object.create(parent);
 
@@ -1098,12 +1134,56 @@ module.exports = (function (parent) {
     Object.defineProperty(game1, 'update', {
         value: function () {
             parent.update.call(this);
+            // Do stuff with this.gameObjectsManager
         }
     });
 
     return game1;
 }(require('./game.js')));
-},{"./game.js":18}],7:[function(require,module,exports){
+},{"./game.js":21}],8:[function(require,module,exports){
+module.exports = (function (parent) {
+    var game2ObjectsManager = Object.create(parent),
+        sat = require('sat'),
+        constants = require('./constants.js');
+    
+    // Could be done in a similar way to game 3
+    Object.defineProperty(game2ObjectsManager, 'manageObstacles', {
+        value: function (obstacles) {
+            // TODO:
+        }
+    });
+
+    // This will be the same as game 3, except we'll listen for the up/down arrows being pressed
+    Object.defineProperty(game2ObjectsManager, 'startChangeDirectionListener', {
+        value: function (game) {
+            // TODO:
+        }
+    });
+
+    // This will be similar to game3
+    Object.defineProperty(game2ObjectsManager, 'movePlayer', {
+        value: function (player) {
+            // TODO:
+        }
+    });
+
+    // this will be the same as game 3
+    Object.defineProperty(game2ObjectsManager, 'manageCollisions', {
+        value: function (game, player, obstacles) {
+            var collisionHappened = obstacles.some(function (obstacle) {
+                return sat.testPolygonPolygon(obstacle.collisionProfile, player.shape.collisionProfile);
+            });
+
+            if (collisionHappened) {
+                // Uncomment this to have a game over condition.
+                // game.over = true;
+            }
+        }
+    });
+
+    return game2ObjectsManager;
+}(require('./game-object-manager.js')));
+},{"./constants.js":4,"./game-object-manager.js":19,"sat":1}],9:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2Renderer = Object.create(parent);
     // Consider declaring here a private variable to hold your Canvas Context or SVG element.
@@ -1128,12 +1208,10 @@ module.exports = (function (parent) {
 
     return game2Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":24}],8:[function(require,module,exports){
+},{"./renderer.js":27}],10:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2 = Object.create(parent);
-
-    // When the game is over, please set game2.over = true;
-
+    
     // If you need to initialize the state of your game, please use this property. Otherwise feel free to
     // remove it from the code. The parent.init will be called due to the prototype chain.
     Object.defineProperty(game2, 'init', {
@@ -1148,12 +1226,13 @@ module.exports = (function (parent) {
     Object.defineProperty(game2, 'update', {
         value: function () {
             parent.update.call(this);
+            // Do stuff with this.gameObjectsManager similar to game 3
         }
     });
 
     return game2;
 }(require('./game.js')));
-},{"./game.js":18}],9:[function(require,module,exports){
+},{"./game.js":21}],11:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3ObjectsManager = Object.create(parent),
         sat = require('sat'),
@@ -1253,7 +1332,7 @@ module.exports = (function (parent) {
 
     return game3ObjectsManager;
 }(require('./game-object-manager.js')));
-},{"./constants.js":4,"./game-object-factory.js":15,"./game-object-manager.js":16,"sat":1}],10:[function(require,module,exports){
+},{"./constants.js":4,"./game-object-factory.js":18,"./game-object-manager.js":19,"sat":1}],12:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3Renderer = Object.create(parent),
         constants = require('./constants.js'),
@@ -1288,7 +1367,7 @@ module.exports = (function (parent) {
     return game3Renderer;
 }(require('./renderer.js')));
 
-},{"./constants.js":4,"./renderer.js":24}],11:[function(require,module,exports){
+},{"./constants.js":4,"./renderer.js":27}],13:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3 = Object.create(parent);
     
@@ -1317,7 +1396,44 @@ module.exports = (function (parent) {
     return game3;
 }(require('./game.js')));
 
-},{"./game.js":18}],12:[function(require,module,exports){
+},{"./game.js":21}],14:[function(require,module,exports){
+module.exports = (function (parent) {
+    var game4ObjectsManager = Object.create(parent),
+        sat = require('sat'),
+        constants = require('./constants.js');
+
+    // Will be different, the 'obstacles' will not move, must have some timer to count and end game if no collision is detected
+    Object.defineProperty(game4ObjectsManager, 'manageObstacles', {
+        value: function (obstacles) {
+            // TODO:
+        }
+    });
+
+    // This will be the same as game 3, except we'll listen for the W/A/S/D keys being pressed
+    Object.defineProperty(game4ObjectsManager, 'startChangeDirectionListener', {
+        value: function (game) {
+            // TODO:
+        }
+    });
+
+    // This will be similar to game3
+    Object.defineProperty(game4ObjectsManager, 'movePlayer', {
+        value: function (player) {
+            // TODO:
+        }
+    });
+
+    // This will be different, if collision is detected the 'obstacle' must be deleted, its timer stopped
+    // so no game over occurs.
+    Object.defineProperty(game4ObjectsManager, 'manageCollisions', {
+        value: function (game, player, obstacles) {
+            // TODO:
+        }
+    });
+
+    return game4ObjectsManager;
+}(require('./game-object-manager.js')));
+},{"./constants.js":4,"./game-object-manager.js":19,"sat":1}],15:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4Renderer = Object.create(parent);
     // Consider declaring here a private variable to hold your Canvas Context or SVG element.
@@ -1342,7 +1458,7 @@ module.exports = (function (parent) {
 
     return game4Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":24}],13:[function(require,module,exports){
+},{"./renderer.js":27}],16:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4 = Object.create(parent);
 
@@ -1362,12 +1478,13 @@ module.exports = (function (parent) {
     Object.defineProperty(game4, 'update', {
         value: function () {
             parent.update.call(this);
+            // Do stuff with this.gameObjectManager
         }
     });
 
     return game4;
 }(require('./game.js')));
-},{"./game.js":18}],14:[function(require,module,exports){
+},{"./game.js":21}],17:[function(require,module,exports){
 module.exports = (function() {
     var gameError = {
         NotImplementedError: function (message) {
@@ -1380,7 +1497,7 @@ module.exports = (function() {
 
     return gameError;
 }());
-},{}],15:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = (function () {
     var rectangle = require('./rectangle.js'),
         rectangleWithText = require('./rectangle-with-text.js'),
@@ -1416,7 +1533,7 @@ module.exports = (function () {
         }
     };
 }());
-},{"./circle.js":3,"./rectangle-with-text.js":22,"./rectangle.js":23,"./triangle.js":26,"sat":1}],16:[function(require,module,exports){
+},{"./circle.js":3,"./rectangle-with-text.js":25,"./rectangle.js":26,"./triangle.js":29,"sat":1}],19:[function(require,module,exports){
 module.exports = (function() {
     var gameObjectManager = {},
         validator = require('./validator.js'),
@@ -1446,7 +1563,7 @@ module.exports = (function() {
 
     return gameObjectManager;
 }());
-},{"./triangle.js":26,"./validator.js":27}],17:[function(require,module,exports){
+},{"./triangle.js":29,"./validator.js":30}],20:[function(require,module,exports){
 //TODO: make a gameObjectFactory
 module.exports = (function () {
     var gameObject = {},
@@ -1533,7 +1650,7 @@ module.exports = (function () {
 
     return gameObject;
 }());
-},{"./validator.js":27}],18:[function(require,module,exports){
+},{"./validator.js":30}],21:[function(require,module,exports){
 module.exports = (function () {
     var game = {},
         validator = require('./validator.js');
@@ -1654,7 +1771,7 @@ module.exports = (function () {
 
     return game;
 }());
-},{"./validator.js":27}],19:[function(require,module,exports){
+},{"./validator.js":30}],22:[function(require,module,exports){
 module.exports = (function () {
     var constants = require('./constants.js'),
         game1Prototype = require('./game-1.js'),
@@ -1666,13 +1783,13 @@ module.exports = (function () {
         game2RendererProto = require('./game-2-renderer.js'),
         game3RendererProto = require('./game-3-renderer.js'),
         game4RendererProto = require('./game-4-renderer.js'),
-        //game1ObjectsManagerProto = require('./game-1-Objects-Manager.js'),        
-        //game2ObjectsManagerProto = require('./game-2-Objects-Manager.js'),
+        game1ObjectsManagerProto = require('./game-1-Objects-Manager.js'),        
+        game2ObjectsManagerProto = require('./game-2-Objects-Manager.js'),
         game3ObjectsManagerProto = require('./game-3-Objects-Manager.js'),
-        //game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
+        game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
         player = require('./player.js');
 
-    // Lots of constants - in the constants.js
+    // All constants - in the constants.js
 
     function initializeGame1() {
         //TODO: complete
@@ -1714,7 +1831,7 @@ module.exports = (function () {
         }
     };
 }());
-},{"./constants.js":4,"./game-1-renderer.js":5,"./game-1.js":6,"./game-2-renderer.js":7,"./game-2.js":8,"./game-3-Objects-Manager.js":9,"./game-3-renderer.js":10,"./game-3.js":11,"./game-4-renderer.js":12,"./game-4.js":13,"./game-object-factory.js":15,"./player.js":21}],20:[function(require,module,exports){
+},{"./constants.js":4,"./game-1-Objects-Manager.js":5,"./game-1-renderer.js":6,"./game-1.js":7,"./game-2-Objects-Manager.js":8,"./game-2-renderer.js":9,"./game-2.js":10,"./game-3-Objects-Manager.js":11,"./game-3-renderer.js":12,"./game-3.js":13,"./game-4-Objects-Manager.js":14,"./game-4-renderer.js":15,"./game-4.js":16,"./game-object-factory.js":18,"./player.js":24}],23:[function(require,module,exports){
 module.exports = (function () {    
     var engine = {},
         games,
@@ -1749,7 +1866,7 @@ module.exports = (function () {
 
     return engine;
 }());
-},{}],21:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = (function() {
     var player = {},
         validator = require('./validator.js');
@@ -1785,7 +1902,7 @@ module.exports = (function() {
 
     return player;
 }());
-},{"./validator.js":27}],22:[function(require,module,exports){
+},{"./validator.js":30}],25:[function(require,module,exports){
 module.exports = (function(parent) {
     var rectangleWithText = Object.create(parent),
         validator = require('./validator.js');
@@ -1811,7 +1928,7 @@ module.exports = (function(parent) {
 
     return rectangleWithText;
 }(require('./rectangle.js')));
-},{"./rectangle.js":23,"./validator.js":27}],23:[function(require,module,exports){
+},{"./rectangle.js":26,"./validator.js":30}],26:[function(require,module,exports){
 module.exports = (function (parent) {
     var rectangle = Object.create(parent),
         validator = require('./validator.js');
@@ -1863,7 +1980,7 @@ module.exports = (function (parent) {
 
     return rectangle;
 }(require('./game-object.js')));
-},{"./game-object.js":17,"./validator.js":27}],24:[function(require,module,exports){
+},{"./game-object.js":20,"./validator.js":30}],27:[function(require,module,exports){
 module.exports = (function() {
     var renderer = {},
         gameError = require('./game-errors.js');
@@ -1882,10 +1999,10 @@ module.exports = (function() {
 
     return renderer;
 }());
-},{"./game-errors.js":14}],25:[function(require,module,exports){
+},{"./game-errors.js":17}],28:[function(require,module,exports){
 var run = require('./application.js');
 run();
-},{"./application.js":2}],26:[function(require,module,exports){
+},{"./application.js":2}],29:[function(require,module,exports){
 module.exports = (function (parent) {
     var triangle = Object.create(parent),
         validator = require('./validator.js');
@@ -1972,7 +2089,7 @@ module.exports = (function (parent) {
     return triangle;
 }(require('./game-object.js')));
 
-},{"./game-object.js":17,"./validator.js":27}],27:[function(require,module,exports){
+},{"./game-object.js":20,"./validator.js":30}],30:[function(require,module,exports){
 module.exports = (function () {
     var validator = {},
         CONSTANTS = require('./constants.js');
@@ -2114,4 +2231,4 @@ module.exports = (function () {
 
     return validator;
 }());
-},{"./constants.js":4,"./game-object.js":17,"./player.js":21,"./renderer.js":24,"sat":1}]},{},[4,14,27,17,3,26,23,22,15,21,24,5,7,10,12,9,18,6,8,11,13,19,2,25,20]);
+},{"./constants.js":4,"./game-object.js":20,"./player.js":24,"./renderer.js":27,"sat":1}]},{},[4,17,30,20,3,29,26,25,18,24,27,6,9,12,15,11,21,7,10,13,16,22,2,28,23,5,8,14]);

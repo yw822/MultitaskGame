@@ -9,13 +9,13 @@ module.exports = (function () {
         game2RendererProto = require('./game-2-renderer.js'),
         game3RendererProto = require('./game-3-renderer.js'),
         game4RendererProto = require('./game-4-renderer.js'),
-        //game1ObjectsManagerProto = require('./game-1-Objects-Manager.js'),        
-        //game2ObjectsManagerProto = require('./game-2-Objects-Manager.js'),
+        game1ObjectsManagerProto = require('./game-1-Objects-Manager.js'),        
+        game2ObjectsManagerProto = require('./game-2-Objects-Manager.js'),
         game3ObjectsManagerProto = require('./game-3-Objects-Manager.js'),
-        //game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
+        game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
         player = require('./player.js');
 
-    // Lots of constants - in the constants.js
+    // All constants - in the constants.js
 
     function initializeGame1() {
         //TODO: complete

@@ -17,6 +17,7 @@ module.exports = (function (parent) {
     Object.defineProperty(game4, 'update', {
         value: function () {
             parent.update.call(this);
+            // Do stuff with this.gameObjectManager
         }
     });
 
