@@ -6,18 +6,33 @@ module.exports = (function (parent) {
     // If you need to initialize the state of your game, please use this property. Otherwise feel free to
     // remove it from the code. The parent.init will be called due to the prototype chain.
     Object.defineProperty(game1, 'init', {
-        value: function (renderer, player, gameObjects, gameObjectsManager) {
+        value: function (renderer, player, gameObjects, gameObjectsManager, boardRotationAngle) {
             parent.init.call(this, renderer, player, gameObjects, gameObjectsManager);
+            this.boardRotationAngle = boardRotationAngle;
 
             return this;
         }
     });
 
-    //TODO: check if it is possible to move this logic to parent
     Object.defineProperty(game1, 'update', {
         value: function () {
-            parent.update.call(this);
-            // Do stuff with this.gameObjectsManager
+            this.renderer.clearStage();
+            this.renderer.render(this.player.shape, this.boardRotationAngle);
+            this.gameObjects.forEach(this.renderer.render, this.boardRotationAngle);
+
+            this.gameObjectsManager.manageBall(this);
+            this.gameObjectsManager.startChangeDirectionListener(this);
+            this.gameObjectsManager.movePlayer(this);
+            this.gameObjectsManager.manageState(this);
+        }
+    });
+
+    Object.defineProperty(game1, 'boardRotationAngle', {
+        get: function () {
+            return this._boardRotationAngle;
+        },
+        set: function (value) {
+            this._boardRotationAngle = value;
         }
     });
 
