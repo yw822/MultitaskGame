@@ -18,7 +18,19 @@ module.exports = (function () {
     // All constants - in the constants.js
 
     function initializeGame1() {
-        //TODO: complete
+        var playerShape = gameObjectFactory.getRectangle(constants.GAME1_BOARD_TOP_LEFT_POINT_X, constants.GAME1_BOARD_TOP_LEFT_POINT_Y,
+                constants.GAME1_BOARD_WIDTH, constants.GAME1_BOARD_HEIGHT, constants.GAME1_BOARD_FILL,
+                constants.GAME1_BOARD_STROKE, constants.GAME1_BOARD_STROKE_WIDTH),
+            ball = gameObjectFactory.getCircle(constants.GAME1_BALL_START_X, constants.GAME1_BALL_START_Y, constants.GAME1_BALL_RADIUS,
+                constants.GAME1_BALL_FILL, constants.GAME1_BALL_STROKE, constants.GAME1_BALL_STROKE_WIDTH),
+            renderer = Object.create(game1RendererProto),
+            somePlayer = Object.create(player).init(playerShape, 'none'),
+            gameObjectsManager = Object.create(game1ObjectsManagerProto),
+            game1;
+        
+        game1 = Object.create(game1Prototype).init(renderer, somePlayer, [ball], gameObjectsManager, constants.GAME1_INITIAL_ROTATION_ANGLE);
+
+        return game1;
     }
 
     function initializeGame2() {
@@ -51,7 +63,7 @@ module.exports = (function () {
                 game3 = initializeGame3(),
                 game4 = initializeGame4();
 
-            games.push(/*game1, game2,*/ game3/*, game4*/);
+            games.push(game1,/* game2,*/ game3/*, game4*/);
 
             return games;
         }

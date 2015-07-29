@@ -5,6 +5,30 @@ module.exports = (function () {
 
         CANVAS_WIDTH: 300,
         CANVAS_HEIGHT: 201,
+
+        // game1 constants        
+        GAME1_INITIAL_ROTATION_ANGLE: 0,
+        GAME1_BOARD_TOP_LEFT_POINT_X: 50,
+        GAME1_BOARD_TOP_LEFT_POINT_Y: 100,
+        GAME1_BOARD_WIDTH: 200,
+        GAME1_BOARD_HEIGHT: 10,
+        GAME1_BOARD_FILL: 'black',
+        GAME1_BOARD_STROKE: 'none',
+        GAME1_BOARD_STROKE_WIDTH: 1,
+        GAME1_BALL_START_X: 150,
+        GAME1_BALL_START_Y: 90,
+        GAME1_BALL_RADIUS: 10,
+        GAME1_BALL_FILL: 'red',
+        GAME1_BALL_STROKE: 'none',
+        GAME1_BALL_STROKE_WIDTH: 1,
+        GAME1_BALL_STEP: 1.5,
+        GAME1_BALL_MIN_X: 50,
+        GAME1_BALL_MAX_X: 250,
+        GAME1_ROTATION_ANGLE_STEP: 0.02,
+        GAME1_ROTATION_ANGLE_STEP_WHEN_PRESSED: 0.05,
+        GAME1_ROT_ANGLE_STEP_MODIFIER: 120,
+        GAME1_ROT_ANGLE_STEP_MODIFIER_WHEN_PRESSED: 2000,
+
         // game3 constants:        
         GAME3_PLAYER_TOP_LEFT_POINT_X: 50,
         GAME3_PLAYER_TOP_LEFT_POINT_Y: 180,
