@@ -1027,6 +1027,30 @@ module.exports = (function () {
 
         CANVAS_WIDTH: 300,
         CANVAS_HEIGHT: 201,
+
+        // game1 constants        
+        GAME1_INITIAL_ROTATION_ANGLE: 0,
+        GAME1_BOARD_TOP_LEFT_POINT_X: 50,
+        GAME1_BOARD_TOP_LEFT_POINT_Y: 100,
+        GAME1_BOARD_WIDTH: 200,
+        GAME1_BOARD_HEIGHT: 10,
+        GAME1_BOARD_FILL: 'black',
+        GAME1_BOARD_STROKE: 'none',
+        GAME1_BOARD_STROKE_WIDTH: 1,
+        GAME1_BALL_START_X: 150,
+        GAME1_BALL_START_Y: 90,
+        GAME1_BALL_RADIUS: 10,
+        GAME1_BALL_FILL: 'red',
+        GAME1_BALL_STROKE: 'none',
+        GAME1_BALL_STROKE_WIDTH: 1,
+        GAME1_BALL_STEP: 1.5,
+        GAME1_BALL_MIN_X: 50,
+        GAME1_BALL_MAX_X: 250,
+        GAME1_ROTATION_ANGLE_STEP: 0.02,
+        GAME1_ROTATION_ANGLE_STEP_WHEN_PRESSED: 0.05,
+        GAME1_ROT_ANGLE_STEP_MODIFIER: 120,
+        GAME1_ROT_ANGLE_STEP_MODIFIER_WHEN_PRESSED: 2000,
+
         // game3 constants:        
         GAME3_PLAYER_TOP_LEFT_POINT_X: 50,
         GAME3_PLAYER_TOP_LEFT_POINT_Y: 180,
@@ -1057,33 +1081,94 @@ module.exports = (function () {
 module.exports = (function (parent) {
     var game1ObjectsManager = Object.create(parent),
         sat = require('sat'),
-        constants = require('./constants.js');
-    // Maybe some variable ballWeight which will deppend on where on the board it is
-    // and will affect the speed of rotation of the board.
+        constants = require('./constants.js'),
+        keyPressed = false,
+        rotationDirection,
+        ball;
 
-    // This will be different than the other games
-    Object.defineProperty(game1ObjectsManager, 'manageObstacles', {
-        value: function (obstacles) {
-        }
-    });
-
-    // This will be similar to the others, except we'll listen for the left/right arrows being pressed
-    Object.defineProperty(game1ObjectsManager, 'startChangeDirectionListener', {
+    Object.defineProperty(game1ObjectsManager, 'manageBall', {
         value: function (game) {
-            // TODO:
-        }
-    });
-
-    // Could be with rotation of the canvas
-    Object.defineProperty(game1ObjectsManager, 'movePlayer', {
-        value: function (player) {
-            // TODO:
+            ball = game.gameObjects[0];
+            ball.xCoordinate += constants.GAME1_BALL_STEP * game.boardRotationAngle;
         }
     });
     
-    Object.defineProperty(game1ObjectsManager, 'manageCollisions', {
-        value: function (/**/) {
-            // TODO: similar to the others, but when no collision - game over.
+    Object.defineProperty(game1ObjectsManager, 'startChangeDirectionListener', {
+        value: function (game) {
+            document.addEventListener('keydown', downpressHandle);
+            document.addEventListener('keyup', upHandle);
+
+            function downpressHandle(key) {
+                if (key.keyCode === 37) {
+                    rotationDirection = 'left';
+                    keyPressed = true;
+                    document.removeEventListener('keydown', downpressHandle);
+                }
+                if (key.keyCode === 39) {
+                    rotationDirection = 'right';
+                    keyPressed = true;
+                    document.removeEventListener('keydown', downpressHandle);
+                }
+            }
+
+            function upHandle(key) {
+                if (key.keyCode === 37) {
+                    keyPressed = false;
+                    document.removeEventListener('keyup', upHandle);
+                }
+                if (key.keyCode === 39) {
+                    keyPressed = false;
+                    document.removeEventListener('keyup', upHandle);
+                }
+            }
+        }
+    });
+
+    Object.defineProperty(game1ObjectsManager, 'movePlayer', {
+        value: function (game) {
+            var randomChoiceOfDirection,
+                ballXCoord = game.gameObjects[0].xCoordinate;
+
+            if (!keyPressed) {
+                if ((ballXCoord - constants.GAME1_BALL_MIN_X) > constants.GAME1_BOARD_WIDTH / 2) {
+                    game.boardRotationAngle =
+                        constants.GAME1_ROTATION_ANGLE_STEP
+                        + (ballXCoord - constants.GAME1_BALL_START_X) / constants.GAME1_ROT_ANGLE_STEP_MODIFIER;
+                }
+                else if ((ballXCoord - constants.GAME1_BALL_MIN_X) < constants.GAME1_BOARD_WIDTH / 2) {
+                    game.boardRotationAngle =
+                        -constants.GAME1_ROTATION_ANGLE_STEP
+                        + (ballXCoord - constants.GAME1_BALL_START_X) / constants.GAME1_ROT_ANGLE_STEP_MODIFIER;
+                }
+                else {
+                    randomChoiceOfDirection = Math.random();
+                game.boardRotationAngle = randomChoiceOfDirection < 0.5 ? -constants.GAME1_ROTATION_ANGLE_STEP 
+                                                                        : constants.GAME1_ROTATION_ANGLE_STEP;
+                }
+            }
+            else {
+                if (rotationDirection === 'left') {
+                    game.boardRotationAngle -=
+                        constants.GAME1_ROTATION_ANGLE_STEP_WHEN_PRESSED
+                        - Math.abs(ballXCoord - constants.GAME1_BALL_START_X) / constants.GAME1_ROT_ANGLE_STEP_MODIFIER_WHEN_PRESSED;
+                }
+                else if (rotationDirection === 'right') {
+                    game.boardRotationAngle +=
+                        constants.GAME1_ROTATION_ANGLE_STEP_WHEN_PRESSED
+                        - Math.abs(ballXCoord - constants.GAME1_BALL_START_X) / constants.GAME1_ROT_ANGLE_STEP_MODIFIER_WHEN_PRESSED;
+                }
+            }
+        }
+    });
+
+    Object.defineProperty(game1ObjectsManager, 'manageState', {
+        value: function (game) {
+            ball = game.gameObjects[0];
+
+            if (ball.xCoordinate < constants.GAME1_BALL_MIN_X || ball.xCoordinate > constants.GAME1_BALL_MAX_X) {
+                // Uncomment this line to enable game over condition
+                // game.over = true;
+            }
         }
     });
 
@@ -1091,30 +1176,58 @@ module.exports = (function (parent) {
 }(require('./game-object-manager.js')));
 },{"./constants.js":4,"./game-object-manager.js":19,"sat":1}],6:[function(require,module,exports){
 module.exports = (function (parent) {
-    var game1Renderer = Object.create(parent);
-    // Consider declaring here a private variable to hold your Canvas Context or SVG element.
+    var game1Renderer = Object.create(parent),
+        constants = require('./constants.js'),
+        circle = require('./circle.js'),
+        stage = new Kinetic.Stage({
+            container: document.getElementById('game-1'),
+            width: constants.CANVAS_WIDTH,
+            height: constants.CANVAS_HEIGHT
+        }),
+        layer = new Kinetic.Layer({ width: 300, height: 200});
 
     Object.defineProperty(game1Renderer, 'clearStage', {
         value: function () {
-            //TODO: Implement this method to clear the Canvas. If you are using SVG, you can leave this method empty. Your choice :)
-
-            //Delete this line!
-            parent.clearStage.call(this);
+            layer.removeChildren();
         }
     });
 
     Object.defineProperty(game1Renderer, 'render', {
-        value: function (gameObject) {
-            //TODO: Implement this method to render the game objects.
+        value: function (gameObject, rotationAngle) {
+            var figure;
+            if (circle.isPrototypeOf(gameObject)) {
+                figure = new Kinetic.Circle({
+                    x: gameObject.xCoordinate,
+                    y: gameObject.yCoordinate,
+                    radius: gameObject.radius,
+                    fill: gameObject.fill,
+                    stroke: gameObject.stroke,
+                    strokeWidth: gameObject.strokeWidth
+                });
+            }
+            else {
+                figure = new Kinetic.Line({
+                    points: gameObject.getCoordinatesAsArray(),
+                    stroke: gameObject.stroke,
+                    fill: gameObject.fill,
+                    strokeWidth: gameObject.strokeWidth,
+                    closed: true
+                });
+            }           
 
-            //Delete this line!
-            parent.render.call(this, gameObject);
+            layer.add(figure);
+            var w = layer.getWidth(),
+                h = layer.getHeight();
+            layer.setOffset({x:w / 2,y:h / 2});
+            layer.setPosition({ x: w / 2, y: h / 2 });
+            layer.rotateDeg(rotationAngle);
+            stage.add(layer);
         }
     });
 
     return game1Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":27}],7:[function(require,module,exports){
+},{"./circle.js":3,"./constants.js":4,"./renderer.js":27}],7:[function(require,module,exports){
 module.exports = (function (parent) {
     var game1 = Object.create(parent);
 
@@ -1123,18 +1236,33 @@ module.exports = (function (parent) {
     // If you need to initialize the state of your game, please use this property. Otherwise feel free to
     // remove it from the code. The parent.init will be called due to the prototype chain.
     Object.defineProperty(game1, 'init', {
-        value: function (renderer, player, gameObjects, gameObjectsManager) {
+        value: function (renderer, player, gameObjects, gameObjectsManager, boardRotationAngle) {
             parent.init.call(this, renderer, player, gameObjects, gameObjectsManager);
+            this.boardRotationAngle = boardRotationAngle;
 
             return this;
         }
     });
 
-    //TODO: check if it is possible to move this logic to parent
     Object.defineProperty(game1, 'update', {
         value: function () {
-            parent.update.call(this);
-            // Do stuff with this.gameObjectsManager
+            this.renderer.clearStage();
+            this.renderer.render(this.player.shape, this.boardRotationAngle);
+            this.gameObjects.forEach(this.renderer.render, this.boardRotationAngle);
+
+            this.gameObjectsManager.manageBall(this);
+            this.gameObjectsManager.startChangeDirectionListener(this);
+            this.gameObjectsManager.movePlayer(this);
+            this.gameObjectsManager.manageState(this);
+        }
+    });
+
+    Object.defineProperty(game1, 'boardRotationAngle', {
+        get: function () {
+            return this._boardRotationAngle;
+        },
+        set: function (value) {
+            this._boardRotationAngle = value;
         }
     });
 
@@ -1168,7 +1296,7 @@ module.exports = (function (parent) {
     });
 
     // this will be the same as game 3
-    Object.defineProperty(game2ObjectsManager, 'manageCollisions', {
+    Object.defineProperty(game2ObjectsManager, 'manageState', {
         value: function (game, player, obstacles) {
             var collisionHappened = obstacles.some(function (obstacle) {
                 return sat.testPolygonPolygon(obstacle.collisionProfile, player.shape.collisionProfile);
@@ -1317,7 +1445,7 @@ module.exports = (function (parent) {
         }
     });
 
-    Object.defineProperty(game3ObjectsManager, 'manageCollisions', {
+    Object.defineProperty(game3ObjectsManager, 'manageState', {
         value: function (game, player, obstacles) {
             var collisionHappened = obstacles.some(function(obstacle){
                 return sat.testPolygonPolygon(obstacle.collisionProfile, player.shape.collisionProfile);
@@ -1389,7 +1517,7 @@ module.exports = (function (parent) {
             this.gameObjectsManager.startChangeDirectionListener(this);
             this.gameObjectsManager.movePlayer(this.player);
 
-            this.gameObjectsManager.manageCollisions(this, this.player, this.gameObjects);
+            this.gameObjectsManager.manageState(this, this.player, this.gameObjects);
         }
     });
 
@@ -1425,7 +1553,7 @@ module.exports = (function (parent) {
 
     // This will be different, if collision is detected the 'obstacle' must be deleted, its timer stopped
     // so no game over occurs.
-    Object.defineProperty(game4ObjectsManager, 'manageCollisions', {
+    Object.defineProperty(game4ObjectsManager, 'manageState', {
         value: function (game, player, obstacles) {
             // TODO:
         }
@@ -1656,7 +1784,7 @@ module.exports = (function () {
         validator = require('./validator.js');
 
     Object.defineProperty(game, 'init', {
-        value: function (renderer, player, gameObjects, gameObjectsManager) { //TODO: provide collisionDetector
+        value: function (renderer, player, gameObjects, gameObjectsManager) { 
             this.renderer = renderer;
             this.player = player;
             this.gameObjects = gameObjects || [];
@@ -1792,7 +1920,19 @@ module.exports = (function () {
     // All constants - in the constants.js
 
     function initializeGame1() {
-        //TODO: complete
+        var playerShape = gameObjectFactory.getRectangle(constants.GAME1_BOARD_TOP_LEFT_POINT_X, constants.GAME1_BOARD_TOP_LEFT_POINT_Y,
+                constants.GAME1_BOARD_WIDTH, constants.GAME1_BOARD_HEIGHT, constants.GAME1_BOARD_FILL,
+                constants.GAME1_BOARD_STROKE, constants.GAME1_BOARD_STROKE_WIDTH),
+            ball = gameObjectFactory.getCircle(constants.GAME1_BALL_START_X, constants.GAME1_BALL_START_Y, constants.GAME1_BALL_RADIUS,
+                constants.GAME1_BALL_FILL, constants.GAME1_BALL_STROKE, constants.GAME1_BALL_STROKE_WIDTH),
+            renderer = Object.create(game1RendererProto),
+            somePlayer = Object.create(player).init(playerShape, 'none'),
+            gameObjectsManager = Object.create(game1ObjectsManagerProto),
+            game1;
+        
+        game1 = Object.create(game1Prototype).init(renderer, somePlayer, [ball], gameObjectsManager, constants.GAME1_INITIAL_ROTATION_ANGLE);
+
+        return game1;
     }
 
     function initializeGame2() {
@@ -1825,7 +1965,7 @@ module.exports = (function () {
                 game3 = initializeGame3(),
                 game4 = initializeGame4();
 
-            games.push(/*game1, game2,*/ game3/*, game4*/);
+            games.push(game1,/* game2,*/ game3/*, game4*/);
 
             return games;
         }
