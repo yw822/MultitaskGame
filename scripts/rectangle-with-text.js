@@ -16,7 +16,7 @@ module.exports = (function(parent) {
             return this._text;
         },
         set: function (value) {
-            validator.validateIfString(value, 'text');
+            //validator.validateIfString(value, 'text');
             this._text = value;
         }
     });

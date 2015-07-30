@@ -26,10 +26,10 @@ module.exports = (function () {
         GAME1_BALL_MAX_X: 250,
         GAME1_ROTATION_ANGLE_STEP: 0.02,
         GAME1_ROTATION_ANGLE_STEP_WHEN_PRESSED: 0.05,
-        GAME1_ROT_ANGLE_STEP_MODIFIER: 120,
+        GAME1_ROT_ANGLE_STEP_MODIFIER: 100,
         GAME1_ROT_ANGLE_STEP_MODIFIER_WHEN_PRESSED: 2000,
 
-        // game3 constants:        
+        // game3 constants:
         GAME3_PLAYER_TOP_LEFT_POINT_X: 50,
         GAME3_PLAYER_TOP_LEFT_POINT_Y: 180,
         GAME3_PLAYER_BOTTOM_LEFT_POINT_X: 50,
@@ -38,7 +38,7 @@ module.exports = (function () {
         GAME3_PLAYER_RIGHT_POINT_Y: 190,
         GAME3_PLAYER_MIN_Y: 0,
         GAME3_PLAYER_MAX_Y: 180,
-        GAME3_PLAYER_STEP: 1,
+        GAME3_PLAYER_STEP: 2,
         GAME3_PLAYER_FILL: 'azure',
         GAME3_PLAYER_STROKE: 'purple',
         GAME3_PLAYER_STROKE_WIDTH: 2,
@@ -48,10 +48,33 @@ module.exports = (function () {
         GAME3_OBSTACLE_WIDTH: 15,
         GAME3_OBSTACLE_HEIGHT: 50,
         GAME3_OBSTACLE_MAX_Y: 150,
-        GAME3_OBSTACLE_STEP: 1,
+        GAME3_OBSTACLE_STEP: 2,
         GAME3_OBSTACLE_FILL: 'black',
         GAME3_OBSTACLE_STROKE: 'none',
         GAME3_OBSTACLE_STROKE_WIDTH: 1,
-       
+
+        // game4 constants:
+        GAME4_OBSTACLE_CREATION_INTERVAL: 4000,
+        GAME4_PLAYER_TOP_LEFT_POINT_X: 150,
+        GAME4_PLAYER_TOP_LEFT_POINT_Y: 100,
+        GAME4_PLAYER_WIDTH: 30,
+        GAME4_PLAYER_HEIGHT: 30,
+        GAME4_PLAYER_MIN_X: 0,
+        GAME4_PLAYER_MAX_X: 270,
+        GAME4_PLAYER_MIN_Y: 0,
+        GAME4_PLAYER_MAX_Y: 170,
+        GAME4_PLAYER_STEP: 3,
+        GAME4_PLAYER_FILL: 'green',
+        GAME4_PLAYER_STROKE: 'none',
+        GAME4_PLAYER_STROKE_WIDTH: 1,
+        GAME4_OBSTACLE_WIDTH: 40,
+        GAME4_OBSTACLE_HEIGHT: 40,
+        GAME4_OBSTACLE_MAX_X: 260,
+        GAME4_OBSTACLE_MAX_Y: 160,
+        GAME4_OBSTACLE_COUNTER_START_VALUE: 10,
+        GAME4_OBSTACLE_COUNTER_STEP: 1000,
+        GAME4_OBSTACLE_FILL: 'grey',
+        GAME4_OBSTACLE_STROKE: 'none',
+        GAME4_OBSTACLE_STROKE_WIDTH: 1,
     };
 }());

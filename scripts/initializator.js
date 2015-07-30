@@ -9,7 +9,7 @@ module.exports = (function () {
         game2RendererProto = require('./game-2-renderer.js'),
         game3RendererProto = require('./game-3-renderer.js'),
         game4RendererProto = require('./game-4-renderer.js'),
-        game1ObjectsManagerProto = require('./game-1-Objects-Manager.js'),        
+        game1ObjectsManagerProto = require('./game-1-Objects-Manager.js'),
         game2ObjectsManagerProto = require('./game-2-Objects-Manager.js'),
         game3ObjectsManagerProto = require('./game-3-Objects-Manager.js'),
         game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
@@ -27,7 +27,7 @@ module.exports = (function () {
             somePlayer = Object.create(player).init(playerShape, 'none'),
             gameObjectsManager = Object.create(game1ObjectsManagerProto),
             game1;
-        
+
         game1 = Object.create(game1Prototype).init(renderer, somePlayer, [ball], gameObjectsManager, constants.GAME1_INITIAL_ROTATION_ANGLE);
 
         return game1;
@@ -52,8 +52,17 @@ module.exports = (function () {
     }
 
     function initializeGame4() {
-        //TODO: complete
-    }   
+        var playerShape = gameObjectFactory.getRectangle(constants.GAME4_PLAYER_TOP_LEFT_POINT_X, constants.GAME4_PLAYER_TOP_LEFT_POINT_Y,
+                constants.GAME4_PLAYER_WIDTH, constants.GAME4_PLAYER_HEIGHT, constants.GAME4_PLAYER_FILL, constants.GAME4_PLAYER_STROKE, constants.GAME4_PLAYER_STROKE_WIDTH),
+            renderer = Object.create(game4RendererProto),
+            somePlayer = Object.create(player).init(playerShape, 'down'),
+            gameObjectsManager = Object.create(game4ObjectsManagerProto),
+            game4;
+        console.log('initialize game 4');
+        game4 = Object.create(game4Prototype).init(renderer, somePlayer, [], gameObjectsManager);
+
+        return game4;
+    }
 
     return {
         initiateGames: function () {
@@ -63,7 +72,10 @@ module.exports = (function () {
                 game3 = initializeGame3(),
                 game4 = initializeGame4();
 
-            games.push(game1,/* game2,*/ game3/*, game4*/);
+            games.push(game1,
+                //game2,
+                game3,
+                game4);
 
             return games;
         }
