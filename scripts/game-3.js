@@ -19,7 +19,7 @@ module.exports = (function (parent) {
             this.gameObjectsManager.startChangeDirectionListener(this);
             this.gameObjectsManager.movePlayer(this.player);
 
-            this.gameObjectsManager.manageCollisions(this, this.player, this.gameObjects);
+            this.gameObjectsManager.manageState(this, this.player, this.gameObjects);
         }
     });
 

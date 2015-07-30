@@ -1,6 +1,6 @@
 module.exports = (function (parent) {
     var game4 = Object.create(parent);
-
+    
     //TODO: check if it is possible to move this logic to parent
     Object.defineProperty(game4, 'update', {
         value: function () {

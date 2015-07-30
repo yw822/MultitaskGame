@@ -3,7 +3,7 @@ module.exports = (function () {
         validator = require('./validator.js');
 
     Object.defineProperty(game, 'init', {
-        value: function (renderer, player, gameObjects, gameObjectsManager) { //TODO: provide collisionDetector
+        value: function (renderer, player, gameObjects, gameObjectsManager) { 
             this.renderer = renderer;
             this.player = player;
             this.gameObjects = gameObjects || [];

@@ -30,14 +30,14 @@
     function createObstacle() {
         var newObstacle,
             randXCoord = Math.random() * constants.GAME4_OBSTACLE_MAX_X,
-            randYCoord = Math.random() * constants.GAME4_OBSTACLE_MAX_Y;
+            randYCoord = Math.random() * constants.GAME4_OBSTACLE_MAX_Y;     
 
         newObstacle = gameObjectFactory.getRectangleWithText(randXCoord, randYCoord, constants.GAME4_OBSTACLE_WIDTH, constants.GAME4_OBSTACLE_HEIGHT,
             constants.GAME4_OBSTACLE_FILL, constants.GAME4_OBSTACLE_STROKE, constants.GAME4_OBSTACLE_STROKE_WIDTH, constants.GAME4_OBSTACLE_COUNTER_START_VALUE);
-        changeTextInterval = setInterval(changeRectText, constants.GAME4_OBSTACLE_COUNTER_STEP, newObstacle);
+            changeTextInterval = setInterval(changeRectText, constants.GAME4_OBSTACLE_COUNTER_STEP, newObstacle);
 
         return newObstacle;
-    }
+    }    
 
     Object.defineProperty(game4ObjectsManager, 'manageObstacles', {
         value: function (obstacles) {
@@ -93,7 +93,7 @@
             }
         }
     });
-
+    
     Object.defineProperty(game4ObjectsManager, 'movePlayer', {
         value: function (player) {
             var dx = 0,
@@ -143,8 +143,8 @@
         value: function (game, player, obstacles) {
             var index = -1,
                 collisionHappened = obstacles.some(function (obstacle) {
-                    index += 1;
-                    return sat.testPolygonPolygon(obstacle.collisionProfile, player.shape.collisionProfile);
+                index += 1;
+                return sat.testPolygonPolygon(obstacle.collisionProfile, player.shape.collisionProfile);
                 });
 
             if (collisionHappened) {
@@ -152,8 +152,8 @@
             }
 
             if (obstacles.some(function (obstacle) {
-                    return obstacle.text === 0;
-                })) {
+                return obstacle.text === 0;
+            })) {
                 game.over = true;
             }
         }

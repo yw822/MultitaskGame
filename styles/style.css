@@ -1,19 +1,65 @@
 body,
 div {
-  margin: 0;
   padding: 0;
 }
-#game-table {
+
+#game-table{
+    margin:0 auto;
+}
+
+#game-table.start-screen{
+    display: block;
+    width: 600px;
+    height:400px;
+    background: url(..\\mule-mug-recipe.jpg);
+}
+
+#game-table.table{
   display: table;
   margin: 0 auto;
   border-collapse: collapse;
 }
-#game-table .game-table-row {
+
+#game-table.game-over{
+  display: block;
+    width: 600px;
+    height:400px;
+    background-color: black;
+}
+
+#game-table.table .game-table-row {
   display: table-row;
 }
-#game-table .game-table-row .game-table-cell {
+#game-table.table .game-table-row .game-table-cell {
   display: table-cell;
   width: 300px;
   height: 200px;
   border: 1px solid #000000;
+}
+
+#play-button{
+    margin-left:275px;
+    margin-top: 20px;
+    width: 50px;
+    height: 30px;
+    background-color:black;
+    font-size: 15px;
+    color: white;
+}
+
+#score-button{
+    margin-left:275px;
+    margin-top: 150px;
+    padding: 10px;
+    background-color:black;
+    font-size: 25px;
+    color: white;
+}
+
+.hidden{
+    display:none;
+}
+
+.visible{
+    display: inline-block;    
 }

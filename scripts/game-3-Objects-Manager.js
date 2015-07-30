@@ -82,7 +82,7 @@
         }
     });
 
-    Object.defineProperty(game3ObjectsManager, 'manageCollisions', {
+    Object.defineProperty(game3ObjectsManager, 'manageState', {
         value: function (game, player, obstacles) {
             var collisionHappened = obstacles.some(function(obstacle){
                 return sat.testPolygonPolygon(obstacle.collisionProfile, player.shape.collisionProfile);
@@ -90,7 +90,7 @@
             
             if (collisionHappened) {
                 // Uncomment this to have a game over condition.
-                // game.over = true;
+                 game.over = true;
             }
         }
     });

@@ -87,7 +87,7 @@
 
             if (ball.xCoordinate < constants.GAME1_BALL_MIN_X || ball.xCoordinate > constants.GAME1_BALL_MAX_X) {
                 // Uncomment this line to enable game over condition
-                // game.over = true;
+                 game.over = true;
             }
         }
     });
