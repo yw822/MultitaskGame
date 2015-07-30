@@ -25,7 +25,7 @@
 
     Object.defineProperty(engine, 'runGames', {
         value: function (gamesList) {
-            games = gamesList
+            games = gamesList;
             animate();
         }
     });
