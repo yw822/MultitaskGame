@@ -73,48 +73,7 @@ module.exports = (function () {
             this.renderer.render(this.player.shape);
             this.gameObjects.forEach(this.renderer.render);
         }
-    });
-
-    // The following three methods may or may not be used. Delete them eventually, when project is done.
-    Object.defineProperty(game, 'addGameObject', {
-        value: function (value) {
-            validator.validateIfGameObject(value, 'gameObject');
-            this.gameObjects.push(value);
-        }
-    });
-
-    Object.defineProperty(game, 'removeGameObject', {
-        value: function (value) {
-            var index,
-                removedGameObject;
-
-            validator.validateIfGameObject(value, 'gameObject');
-
-            index = this.gameObjects.indexOf(value);
-
-            this.gameObjects.splice(index, 1);
-
-            //if (index >= 0) {
-            //    removedGameObject = this.gameObjects.splice(index, 1)[0];
-            //} else {
-            //    removedGameObject = null;
-            //}
-
-            //return removedGameObject;
-        }
-    });
-
-    Object.defineProperty(game, 'removeGameObjectByIndex', {
-        value: function (index) {
-            var removedGameObject;
-
-            validator.validateIfInteger(index, 'index');
-
-            removedGameObject = this.gameObjects.splice(index, 1)[0];
-
-            return removedGameObject;
-        }
-    });
+    });    
 
     return game;
 }());

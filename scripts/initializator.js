@@ -15,8 +15,6 @@ module.exports = (function () {
         game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
         player = require('./player.js');
 
-    // All constants - in the constants.js
-
     function initializeGame1() {
         var playerShape = gameObjectFactory.getRectangle(constants.GAME1_BOARD_TOP_LEFT_POINT_X, constants.GAME1_BOARD_TOP_LEFT_POINT_Y,
                 constants.GAME1_BOARD_WIDTH, constants.GAME1_BOARD_HEIGHT, constants.GAME1_BOARD_FILL,
@@ -34,7 +32,27 @@ module.exports = (function () {
     }
 
     function initializeGame2() {
-        //TODO: complete
+        var playerShape = gameObjectFactory.getRectangle(constants.GAME2_PLAYER_TOP_LEFT_POINT_X, constants.GAME2_PLAYER_TOP_LEFT_POINT_Y,
+                constants.GAME2_PLAYER_WIDTH, constants.GAME2_PLAYER_HEIGHT, constants.GAME2_PLAYER_FILL, constants.GAME2_PLAYER_STROKE, constants.GAME2_PLAYER_STROKE_WIDTH),
+            rightPointingObstacle = gameObjectFactory.getTriangle(constants.GAME2_RP_OBSTACLE_START_POINT_A_X, constants.GAME2_RP_OBSTACLE_START_POINT_A_Y,
+                constants.GAME2_RP_OBSTACLE_START_POINT_B_X, constants.GAME2_RP_OBSTACLE_START_POINT_B_Y, constants.GAME2_RP_OBSTACLE_START_POINT_C_X,
+                constants.GAME2_RP_OBSTACLE_START_POINT_C_Y, constants.GAME2_RP_OBSTACLE_FILL, constants.GAME2_RP_OBSTACLE_STROKE, constants.GAME2_RP_OBSTACLE_STROKE_WIDTH),
+            leftPointingObstacle = gameObjectFactory.getTriangle(constants.GAME2_LP_OBSTACLE_START_POINT_A_X, constants.GAME2_LP_OBSTACLE_START_POINT_A_Y,
+                constants.GAME2_LP_OBSTACLE_START_POINT_B_X, constants.GAME2_LP_OBSTACLE_START_POINT_B_Y, constants.GAME2_LP_OBSTACLE_START_POINT_C_X,
+                constants.GAME2_LP_OBSTACLE_START_POINT_C_Y, constants.GAME2_LP_OBSTACLE_FILL, constants.GAME2_LP_OBSTACLE_STROKE, constants.GAME2_LP_OBSTACLE_STROKE_WIDTH),
+            renderer = Object.create(game2RendererProto),
+            somePlayer = Object.create(player).init(playerShape, 'none'),
+            gameObjectsManager = Object.create(game2ObjectsManagerProto),
+            game2,
+            gameObstacles = [];
+
+        rightPointingObstacle.id = 1;
+        leftPointingObstacle.id = 2;
+        gameObstacles.push(rightPointingObstacle, leftPointingObstacle);
+
+        game2 = Object.create(game2Prototype).init(renderer, somePlayer, gameObstacles, gameObjectsManager);
+
+        return game2;
     }
 
     function initializeGame3() {
@@ -58,7 +76,7 @@ module.exports = (function () {
             somePlayer = Object.create(player).init(playerShape, 'down'),
             gameObjectsManager = Object.create(game4ObjectsManagerProto),
             game4;
-        console.log('initialize game 4');
+
         game4 = Object.create(game4Prototype).init(renderer, somePlayer, [], gameObjectsManager);
 
         return game4;
@@ -73,9 +91,10 @@ module.exports = (function () {
                 game4 = initializeGame4();
 
             games.push(game1,
-                       //game2,
+                       game2,
                        game3,
-                       game4);
+                       game4
+                       );
 
             return games;
         }

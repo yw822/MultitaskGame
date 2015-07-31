@@ -984,23 +984,23 @@
 
 },{}],2:[function(require,module,exports){
 module.exports = function () {
-    console.log('application call');
     var initializator = require('./initializator.js'),
         games,
         engine = require('./mainEngine.js'),
         parentContainer = document.getElementById('game-table'),
         playButton = document.getElementById('play-button');
 
-    playButton.addEventListener('click', function (e) {
-        playButton.removeEventListener('click');
+    function onClickPlayButton() {
+        playButton.removeEventListener('click', onClickPlayButton);
 
         parentContainer.className = 'table';
         playButton.className = 'hidden';
 
         games = initializator.initiateGames();
         engine.runGames(games);
-    }, false);
+    }
 
+    playButton.addEventListener('click', onClickPlayButton);
 }
 },{"./initializator.js":22,"./mainEngine.js":23}],3:[function(require,module,exports){
 module.exports = (function (parent) {
@@ -1039,7 +1039,6 @@ module.exports = (function () {
         CANVAS_HEIGHT: 201,
 
         // game1 constants        
-        GAME1_INITIAL_ROTATION_ANGLE: 0,
         GAME1_BOARD_TOP_LEFT_POINT_X: 50,
         GAME1_BOARD_TOP_LEFT_POINT_Y: 100,
         GAME1_BOARD_WIDTH: 200,
@@ -1047,6 +1046,7 @@ module.exports = (function () {
         GAME1_BOARD_FILL: 'black',
         GAME1_BOARD_STROKE: 'none',
         GAME1_BOARD_STROKE_WIDTH: 1,
+
         GAME1_BALL_START_X: 150,
         GAME1_BALL_START_Y: 90,
         GAME1_BALL_RADIUS: 10,
@@ -1056,10 +1056,55 @@ module.exports = (function () {
         GAME1_BALL_STEP: 1.5,
         GAME1_BALL_MIN_X: 50,
         GAME1_BALL_MAX_X: 250,
+
+        GAME1_INITIAL_ROTATION_ANGLE: 0,
         GAME1_ROTATION_ANGLE_STEP: 0.02,
         GAME1_ROTATION_ANGLE_STEP_WHEN_PRESSED: 0.05,
         GAME1_ROT_ANGLE_STEP_MODIFIER: 100,
         GAME1_ROT_ANGLE_STEP_MODIFIER_WHEN_PRESSED: 2000,
+
+        // game2 constants:
+        GAME2_PLAYER_TOP_LEFT_POINT_X: 145,
+        GAME2_PLAYER_TOP_LEFT_POINT_Y: 90,
+        GAME2_PLAYER_WIDTH: 10,
+        GAME2_PLAYER_HEIGHT: 20,
+        GAME2_PLAYER_MIN_Y: 50,
+        GAME2_PLAYER_MAX_Y: 130,
+        GAME2_PLAYER_STEP: 20,
+        GAME2_PLAYER_FILL: 'blue',
+        GAME2_PLAYER_STROKE: 'black',
+        GAME2_PLAYER_STROKE_WIDTH: 2,
+
+        GAME2_RP_OBSTACLE_START_POINT_A_X: -20,
+        GAME2_RP_OBSTACLE_START_POINT_A_Y: 50,
+        GAME2_RP_OBSTACLE_START_POINT_B_X: -20,
+        GAME2_RP_OBSTACLE_START_POINT_B_Y: 60,
+        GAME2_RP_OBSTACLE_START_POINT_C_X: -5,
+        GAME2_RP_OBSTACLE_START_POINT_C_Y: 55,
+        GAME2_OBSTACLES_STEP: 2,
+        GAME2_RP_OBSTACLE_FILL: 'black',
+        GAME2_RP_OBSTACLE_STROKE: 'none',
+        GAME2_RP_OBSTACLE_STROKE_WIDTH: 1,
+        GAME2_LP_OBSTACLE_START_POINT_A_X: 320,
+        GAME2_LP_OBSTACLE_START_POINT_A_Y: 90,
+        GAME2_LP_OBSTACLE_START_POINT_B_X: 320,
+        GAME2_LP_OBSTACLE_START_POINT_B_Y: 100,
+        GAME2_LP_OBSTACLE_START_POINT_C_X: 305,
+        GAME2_LP_OBSTACLE_START_POINT_C_Y: 95,
+        GAME2_LP_OBSTACLE_FILL: 'black',
+        GAME2_LP_OBSTACLE_STROKE: 'none',
+        GAME2_LP_OBSTACLE_STROKE_WIDTH: 1,
+        GAME2_POINT_TO_RESET_RP_OBSTACLE_X: 200,
+        GAME2_POINT_TO_RESET_LP_OBSTACLE_X: 120,
+
+        GAME2_BACKGROUND_TOP_LEFT_X: 145,
+        GAME2_BACKGROUND_TOP_LEFT_Y: 50,
+        GAME2_BACKGROUND_RECTS_WIDTH: 10,
+        GAME2_BACKGROUND_RECTS_HEIGHT: 20,
+        GAME2_BACKGROUND_RECTS_COUNT: 5,
+        GAME2_BACKGROUND_RECTS_FILL: 'none',
+        GAME2_BACKGROUND_RECTS_STROKE: 'black',
+        GAME2_BACKGROUND_RECTS_STROKE_WIDTH: 2,
 
         // game3 constants:        
         GAME3_PLAYER_TOP_LEFT_POINT_X: 50,
@@ -1074,6 +1119,7 @@ module.exports = (function () {
         GAME3_PLAYER_FILL: 'azure',
         GAME3_PLAYER_STROKE: 'purple',
         GAME3_PLAYER_STROKE_WIDTH: 2,
+
         GAME3_OBSTACLE_START_POINT_X: 300,
         GAME3_POINT_TO_RELEASE_NEW_OBSTACLE_X: 140,
         GAME3_POINT_TO_REMOVE_OBSTACLE_X: 0,
@@ -1086,7 +1132,6 @@ module.exports = (function () {
         GAME3_OBSTACLE_STROKE_WIDTH: 1,
         
         // game4 constants:
-        GAME4_OBSTACLE_CREATION_INTERVAL: 4000,
         GAME4_PLAYER_TOP_LEFT_POINT_X: 150,
         GAME4_PLAYER_TOP_LEFT_POINT_Y: 100,
         GAME4_PLAYER_WIDTH: 30,
@@ -1099,6 +1144,8 @@ module.exports = (function () {
         GAME4_PLAYER_FILL: 'green',
         GAME4_PLAYER_STROKE: 'none',
         GAME4_PLAYER_STROKE_WIDTH: 1,
+
+        GAME4_OBSTACLE_CREATION_INTERVAL: 4000,
         GAME4_OBSTACLE_WIDTH: 40,
         GAME4_OBSTACLE_HEIGHT: 40,
         GAME4_OBSTACLE_MAX_X: 260,
@@ -1305,30 +1352,119 @@ module.exports = (function (parent) {
 module.exports = (function (parent) {
     var game2ObjectsManager = Object.create(parent),
         sat = require('sat'),
-        constants = require('./constants.js');
-    
-    // Could be done in a similar way to game 3
+        constants = require('./constants.js'),
+        isUpArrowKeyPressed = false,
+        isDownArowKeyPressed = false,
+        possibleYCoordsForObstacles = [55, 75, 95, 115, 135],
+        len = possibleYCoordsForObstacles.length,
+        randomFirstYCoord,
+        randomSecondYCoord;
+
+    function moveEnemyObjects(obstacles) {
+        var rightPointingObstacle = obstacles[0],
+            leftPointingObstacle = obstacles[1];
+
+        parent.move(rightPointingObstacle, constants.GAME2_OBSTACLES_STEP, 0);
+        parent.move(leftPointingObstacle, -constants.GAME2_OBSTACLES_STEP, 0);
+    }
+
+    function maintainObstaclesNumber(obstacles) {
+        var dx,
+            dy;
+
+        if (obstacles[0].xCoordinateA >= constants.GAME2_POINT_TO_RESET_RP_OBSTACLE_X) {
+            dx = - 205;
+            randomFirstYCoord = possibleYCoordsForObstacles[Math.round(Math.random() * (len - 1))];
+            dy = -(obstacles[0].yCoordinateA - randomFirstYCoord);
+            parent.move(obstacles[0], dx, dy);
+        }
+
+        if (obstacles[1].xCoordinateA <= constants.GAME2_POINT_TO_RESET_LP_OBSTACLE_X) {
+            dx = 200;
+            randomSecondYCoord = possibleYCoordsForObstacles[Math.round(Math.random() * (len - 1))];
+            dy = -(obstacles[1].yCoordinateA - randomSecondYCoord);
+            parent.move(obstacles[1], dx, dy);  
+        }
+    }
+
     Object.defineProperty(game2ObjectsManager, 'manageObstacles', {
         value: function (obstacles) {
-            // TODO:
+            moveEnemyObjects(obstacles);
+            maintainObstaclesNumber(obstacles);
         }
     });
 
-    // This will be the same as game 3, except we'll listen for the up/down arrows being pressed
     Object.defineProperty(game2ObjectsManager, 'startChangeDirectionListener', {
-        value: function (game) {
-            // TODO:
+        value: function () {
+            document.addEventListener('keydown', downpressHandle);
+            document.addEventListener('keyup', upHandle);
+
+            function downpressHandle(key) {
+                if (key.keyCode === 38) {
+                    isUpArrowKeyPressed = true;
+                    document.removeEventListener('keydown', downpressHandle);
+                }
+                if (key.keyCode === 40) {
+                    isDownArowKeyPressed = true;
+                    document.removeEventListener('keydown', downpressHandle);
+                }
+            }
+
+            function upHandle(key) {
+                if (key.keyCode === 38) {
+                    isUpArrowKeyPressed = false;
+                    document.removeEventListener('keyup', upHandle);
+                }
+                if (key.keyCode === 40) {
+                    isDownArowKeyPressed = false;
+                    document.removeEventListener('keyup', upHandle);
+                }
+            }
         }
     });
 
-    // This will be similar to game3
     Object.defineProperty(game2ObjectsManager, 'movePlayer', {
         value: function (player) {
-            // TODO:
+            if (player.shape.yCoordinate === constants.GAME2_PLAYER_MIN_Y) {
+                if (isUpArrowKeyPressed) {
+                    isUpArrowKeyPressed = false;
+                    parent.move(player.shape, 0, 0);
+                }
+                if (isDownArowKeyPressed) {
+                    isDownArowKeyPressed = false;
+                    parent.move(player.shape, 0, constants.GAME2_PLAYER_STEP);
+                }                
+            }
+
+            if (player.shape.yCoordinate === constants.GAME2_PLAYER_MAX_Y) {
+                if (isDownArowKeyPressed) {
+                    isDownArowKeyPressed = false;
+                    parent.move(player.shape, 0, 0);
+                }
+                if (isUpArrowKeyPressed) {
+                    isUpArrowKeyPressed = false;
+                    parent.move(player.shape, 0, -constants.GAME2_PLAYER_STEP);
+                }
+            }
+
+            if (isUpArrowKeyPressed && isDownArowKeyPressed) {
+                isUpArrowKeyPressed  = false;
+                isDownArowKeyPressed = false;
+                return;
+            }
+
+            if (isUpArrowKeyPressed) {     
+                isUpArrowKeyPressed = false;
+                parent.move(player.shape, 0, -constants.GAME2_PLAYER_STEP);
+            }
+
+            if (isDownArowKeyPressed) {
+                isDownArowKeyPressed = false;
+                parent.move(player.shape, 0, constants.GAME2_PLAYER_STEP);
+            }
         }
     });
 
-    // this will be the same as game 3
     Object.defineProperty(game2ObjectsManager, 'manageState', {
         value: function (game, player, obstacles) {
             var collisionHappened = obstacles.some(function (obstacle) {
@@ -1336,8 +1472,7 @@ module.exports = (function (parent) {
             });
 
             if (collisionHappened) {
-                // Uncomment this to have a game over condition.
-                // game.over = true;
+                game.over = true;
             }
         }
     });
@@ -1346,48 +1481,115 @@ module.exports = (function (parent) {
 }(require('./game-object-manager.js')));
 },{"./constants.js":4,"./game-object-manager.js":19,"sat":1}],9:[function(require,module,exports){
 module.exports = (function (parent) {
-    var game2Renderer = Object.create(parent);
-    // Consider declaring here a private variable to hold your Canvas Context or SVG element.
+    var game2Renderer = Object.create(parent),
+        constants = require('./constants.js'),
+        triangle = require('./triangle.js'),
+        svgContainer = document.getElementById('the-svg'),
+        svgNs = 'http://www.w3.org/2000/svg',
+        backgroundIsDrawn = false,
+        isPlayerDrawn = false,
+        playerRect = document.createElementNS(svgNs, 'rect'),
+        firstObstacle = document.createElementNS(svgNs, 'path'),
+        secondObstacle = document.createElementNS(svgNs, 'path'),
+        obstaclesCount = 0;
+
+    function drawBackground() {
+        var i;
+
+        for (i = 0; i < constants.GAME2_BACKGROUND_RECTS_COUNT; i += 1) {
+            svgContainer.style.display = 'inline-block';
+            var rect = document.createElementNS(svgNs, 'rect');
+            rect.setAttribute('x', constants.GAME2_BACKGROUND_TOP_LEFT_X);
+            rect.setAttribute('y', constants.GAME2_BACKGROUND_TOP_LEFT_Y + i*constants.GAME2_BACKGROUND_RECTS_HEIGHT);
+            rect.setAttribute('width', constants.GAME2_BACKGROUND_RECTS_WIDTH);
+            rect.setAttribute('height', constants.GAME2_BACKGROUND_RECTS_HEIGHT);
+            rect.setAttribute('fill', constants.GAME2_BACKGROUND_RECTS_FILL);
+            rect.setAttribute('stroke', constants.GAME2_BACKGROUND_RECTS_STROKE);
+            rect.setAttribute('stroke-width', constants.GAME2_BACKGROUND_RECTS_STROKE_WIDTH);
+
+            svgContainer.appendChild(rect);
+        }
+    }
 
     Object.defineProperty(game2Renderer, 'clearStage', {
         value: function () {
-            //TODO: Implement this method to clear the Canvas. If you are using SVG, you can leave this method empty. Your choice :)
-
-            //Delete this line!
-            parent.clearStage.call(this);
+            
         }
     });
 
     Object.defineProperty(game2Renderer, 'render', {
         value: function (gameObject) {
-            //TODO: Implement this method to render the game objects.
+            if (!backgroundIsDrawn) {
+                backgroundIsDrawn = true;
+                drawBackground();
+            }
 
-            //Delete this line!
-            parent.render.call(this, gameObject);
+            if (triangle.isPrototypeOf(gameObject)) {
+                if (obstaclesCount === 0) {
+                    obstaclesCount += 1;
+                    firstObstacle.setAttribute('d', 'M ' + gameObject.xCoordinateA + ' ' + gameObject.yCoordinateA
+                        + ' L ' + gameObject.xCoordinateB + ' ' + gameObject.yCoordinateB
+                        + ' L ' + gameObject.xCoordinateC + ' ' + gameObject.yCoordinateC + ' z');
+                    firstObstacle.setAttribute('fill', 'black');
+
+                    svgContainer.appendChild(firstObstacle);
+                }
+                else if (obstaclesCount === 1) {
+                    obstaclesCount += 1;
+                    secondObstacle.setAttribute('d', 'M ' + gameObject.xCoordinateA + ' ' + gameObject.yCoordinateA
+                        + ' L ' + gameObject.xCoordinateB + ' ' + gameObject.yCoordinateB
+                        + ' L ' + gameObject.xCoordinateC + ' ' + gameObject.yCoordinateC + ' z');
+                    secondObstacle.setAttribute('fill', 'black');
+
+                    svgContainer.appendChild(secondObstacle);
+                }
+                else {
+                    if (gameObject.id === 1) {
+                        firstObstacle.setAttribute('d', 'M ' + gameObject.xCoordinateA + ' ' + gameObject.yCoordinateA
+                        + ' L ' + gameObject.xCoordinateB + ' ' + gameObject.yCoordinateB
+                        + ' L ' + gameObject.xCoordinateC + ' ' + gameObject.yCoordinateC + ' z');
+                    }
+                    else if (gameObject.id === 2) {
+                        secondObstacle.setAttribute('d', 'M ' + gameObject.xCoordinateA + ' ' + gameObject.yCoordinateA
+                        + ' L ' + gameObject.xCoordinateB + ' ' + gameObject.yCoordinateB
+                        + ' L ' + gameObject.xCoordinateC + ' ' + gameObject.yCoordinateC + ' z');
+                    }
+                }
+            }
+            else {
+                playerRect.setAttribute('x', gameObject.xCoordinate);
+                playerRect.setAttribute('y', gameObject.yCoordinate);
+                playerRect.setAttribute('width', gameObject.width);
+                playerRect.setAttribute('height', gameObject.height);
+                playerRect.setAttribute('fill', gameObject.fill);
+                playerRect.setAttribute('stroke', gameObject.stroke);
+                playerRect.setAttribute('stroke-width', gameObject.strokeWidth);
+
+                if (!isPlayerDrawn) {
+                    isPlayerDrawn = true;                 
+
+                    svgContainer.appendChild(playerRect);
+                }
+            }
         }
     });
 
     return game2Renderer;
 }(require('./renderer.js')));
-},{"./renderer.js":27}],10:[function(require,module,exports){
+},{"./constants.js":4,"./renderer.js":27,"./triangle.js":29}],10:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2 = Object.create(parent);
     
-    // If you need to initialize the state of your game, please use this property. Otherwise feel free to
-    // remove it from the code. The parent.init will be called due to the prototype chain.
-    Object.defineProperty(game2, 'init', {
-        value: function (renderer, player, gameObjects, gameObjectsManager) {
-            parent.init.call(this, renderer, player, gameObjects, gameObjectsManager);
-
-            return this;
-        }
-    });
-
     //TODO: check if it is possible to move this logic to parent
     Object.defineProperty(game2, 'update', {
         value: function () {
             parent.update.call(this);
-            // Do stuff with this.gameObjectsManager similar to game 3
+
+            this.gameObjectsManager.manageObstacles(this.gameObjects);
+            this.gameObjectsManager.startChangeDirectionListener();
+            this.gameObjectsManager.movePlayer(this.player);
+
+            this.gameObjectsManager.manageState(this, this.player, this.gameObjects);
         }
     });
 
@@ -2031,48 +2233,7 @@ module.exports = (function () {
             this.renderer.render(this.player.shape);
             this.gameObjects.forEach(this.renderer.render);
         }
-    });
-
-    // The following three methods may or may not be used. Delete them eventually, when project is done.
-    Object.defineProperty(game, 'addGameObject', {
-        value: function (value) {
-            validator.validateIfGameObject(value, 'gameObject');
-            this.gameObjects.push(value);
-        }
-    });
-
-    Object.defineProperty(game, 'removeGameObject', {
-        value: function (value) {
-            var index,
-                removedGameObject;
-
-            validator.validateIfGameObject(value, 'gameObject');
-
-            index = this.gameObjects.indexOf(value);
-
-            this.gameObjects.splice(index, 1);
-
-            //if (index >= 0) {
-            //    removedGameObject = this.gameObjects.splice(index, 1)[0];
-            //} else {
-            //    removedGameObject = null;
-            //}
-
-            //return removedGameObject;
-        }
-    });
-
-    Object.defineProperty(game, 'removeGameObjectByIndex', {
-        value: function (index) {
-            var removedGameObject;
-
-            validator.validateIfInteger(index, 'index');
-
-            removedGameObject = this.gameObjects.splice(index, 1)[0];
-
-            return removedGameObject;
-        }
-    });
+    });    
 
     return game;
 }());
@@ -2094,8 +2255,6 @@ module.exports = (function () {
         game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
         player = require('./player.js');
 
-    // All constants - in the constants.js
-
     function initializeGame1() {
         var playerShape = gameObjectFactory.getRectangle(constants.GAME1_BOARD_TOP_LEFT_POINT_X, constants.GAME1_BOARD_TOP_LEFT_POINT_Y,
                 constants.GAME1_BOARD_WIDTH, constants.GAME1_BOARD_HEIGHT, constants.GAME1_BOARD_FILL,
@@ -2113,7 +2272,27 @@ module.exports = (function () {
     }
 
     function initializeGame2() {
-        //TODO: complete
+        var playerShape = gameObjectFactory.getRectangle(constants.GAME2_PLAYER_TOP_LEFT_POINT_X, constants.GAME2_PLAYER_TOP_LEFT_POINT_Y,
+                constants.GAME2_PLAYER_WIDTH, constants.GAME2_PLAYER_HEIGHT, constants.GAME2_PLAYER_FILL, constants.GAME2_PLAYER_STROKE, constants.GAME2_PLAYER_STROKE_WIDTH),
+            rightPointingObstacle = gameObjectFactory.getTriangle(constants.GAME2_RP_OBSTACLE_START_POINT_A_X, constants.GAME2_RP_OBSTACLE_START_POINT_A_Y,
+                constants.GAME2_RP_OBSTACLE_START_POINT_B_X, constants.GAME2_RP_OBSTACLE_START_POINT_B_Y, constants.GAME2_RP_OBSTACLE_START_POINT_C_X,
+                constants.GAME2_RP_OBSTACLE_START_POINT_C_Y, constants.GAME2_RP_OBSTACLE_FILL, constants.GAME2_RP_OBSTACLE_STROKE, constants.GAME2_RP_OBSTACLE_STROKE_WIDTH),
+            leftPointingObstacle = gameObjectFactory.getTriangle(constants.GAME2_LP_OBSTACLE_START_POINT_A_X, constants.GAME2_LP_OBSTACLE_START_POINT_A_Y,
+                constants.GAME2_LP_OBSTACLE_START_POINT_B_X, constants.GAME2_LP_OBSTACLE_START_POINT_B_Y, constants.GAME2_LP_OBSTACLE_START_POINT_C_X,
+                constants.GAME2_LP_OBSTACLE_START_POINT_C_Y, constants.GAME2_LP_OBSTACLE_FILL, constants.GAME2_LP_OBSTACLE_STROKE, constants.GAME2_LP_OBSTACLE_STROKE_WIDTH),
+            renderer = Object.create(game2RendererProto),
+            somePlayer = Object.create(player).init(playerShape, 'none'),
+            gameObjectsManager = Object.create(game2ObjectsManagerProto),
+            game2,
+            gameObstacles = [];
+
+        rightPointingObstacle.id = 1;
+        leftPointingObstacle.id = 2;
+        gameObstacles.push(rightPointingObstacle, leftPointingObstacle);
+
+        game2 = Object.create(game2Prototype).init(renderer, somePlayer, gameObstacles, gameObjectsManager);
+
+        return game2;
     }
 
     function initializeGame3() {
@@ -2137,7 +2316,7 @@ module.exports = (function () {
             somePlayer = Object.create(player).init(playerShape, 'down'),
             gameObjectsManager = Object.create(game4ObjectsManagerProto),
             game4;
-        console.log('initialize game 4');
+
         game4 = Object.create(game4Prototype).init(renderer, somePlayer, [], gameObjectsManager);
 
         return game4;
@@ -2152,9 +2331,10 @@ module.exports = (function () {
                 game4 = initializeGame4();
 
             games.push(game1,
-                       //game2,
+                       game2,
                        game3,
-                       game4);
+                       game4
+                       );
 
             return games;
         }
@@ -2172,8 +2352,13 @@ module.exports = (function () {
         scoreButton = document.getElementById('score-button');
 
     function changeScore() {
-        console.log(score);
         score += 1;
+    }
+
+    function onScoreButtonClicked() {
+        scoreButton.removeEventListener('click', onScoreButtonClicked);
+        scoreButton.className = 'hidden';
+        window.location.reload(true);
     }
 
     function onGameOver() {
@@ -2186,11 +2371,7 @@ module.exports = (function () {
         scoreButton.innerHTML = 'Score: ' + score;
         parentContainer.className = 'game-over';
 
-        scoreButton.addEventListener('click', function (e) {
-            scoreButton.removeEventListener('click');
-            scoreButton.className = 'hidden';
-            window.location.reload(true);
-        }, false);
+        scoreButton.addEventListener('click', onScoreButtonClicked);
     }
 
     function updateGames() {

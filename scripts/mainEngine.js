@@ -9,8 +9,13 @@
         scoreButton = document.getElementById('score-button');
 
     function changeScore() {
-        console.log(score);
         score += 1;
+    }
+
+    function onScoreButtonClicked() {
+        scoreButton.removeEventListener('click', onScoreButtonClicked);
+        scoreButton.className = 'hidden';
+        window.location.reload(true);
     }
 
     function onGameOver() {
@@ -23,11 +28,7 @@
         scoreButton.innerHTML = 'Score: ' + score;
         parentContainer.className = 'game-over';
 
-        scoreButton.addEventListener('click', function (e) {
-            scoreButton.removeEventListener('click');
-            scoreButton.className = 'hidden';
-            window.location.reload(true);
-        }, false);
+        scoreButton.addEventListener('click', onScoreButtonClicked);
     }
 
     function updateGames() {
