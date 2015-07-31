@@ -1,7 +1,7 @@
 module.exports = function () {
     var initializator = require('./initializator.js'),
         games,
-        engine = require('./mainEngine.js'),
+        engine = require('./main-engine.js'),
         parentContainer = document.getElementById('game-table'),
         playButton = document.getElementById('play-button');
 

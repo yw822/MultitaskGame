@@ -986,7 +986,7 @@
 module.exports = function () {
     var initializator = require('./initializator.js'),
         games,
-        engine = require('./mainEngine.js'),
+        engine = require('./main-engine.js'),
         parentContainer = document.getElementById('game-table'),
         playButton = document.getElementById('play-button');
 
@@ -1002,7 +1002,7 @@ module.exports = function () {
 
     playButton.addEventListener('click', onClickPlayButton);
 }
-},{"./initializator.js":26,"./mainEngine.js":27}],3:[function(require,module,exports){
+},{"./initializator.js":26,"./main-engine.js":27}],3:[function(require,module,exports){
 module.exports = (function (parent) {
     var circle = Object.create(parent),
         validator = require('./validator.js');
@@ -1313,10 +1313,6 @@ module.exports = (function (parent) {
 module.exports = (function (parent) {
     var game1 = Object.create(parent);
 
-    // When the game is over, please set game1.over = true;
-
-    // If you need to initialize the state of your game, please use this property. Otherwise feel free to
-    // remove it from the code. The parent.init will be called due to the prototype chain.
     Object.defineProperty(game1, 'init', {
         value: function (renderer, player, gameObjects, gameObjectsManager, boardRotationAngle) {
             parent.init.call(this, renderer, player, gameObjects, gameObjectsManager);
@@ -1583,8 +1579,7 @@ module.exports = (function (parent) {
 },{"./constants.js":4,"./renderer.js":31,"./triangle.js":33}],12:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2 = Object.create(parent);
-    
-    //TODO: check if it is possible to move this logic to parent
+
     Object.defineProperty(game2, 'update', {
         value: function () {
             parent.update.call(this);
@@ -1739,21 +1734,10 @@ module.exports = (function (parent) {
 },{"./constants.js":4,"./renderer.js":31}],16:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3 = Object.create(parent);
-    
-    // Not needed for this game. May be needed for the others.
-    //Object.defineProperty(game3, 'init', {
-    //    value: function (renderer, somePlayer, obstacles, gameObjectsManager) {
-    //        parent.init.call(this, renderer, somePlayer, [], gameObjectsManager);
 
-    //        return this;
-    //    }
-    //});
-
-    //TODO: check if it is possible to move this logic to parent. Not for now.
     Object.defineProperty(game3, 'update', {
         value: function () {
             parent.update.call(this);
-            // TODO: Consider how the gameObjectManager can provide general methods here
             this.gameObjectsManager.manageObstacles(this.gameObjects);
             this.gameObjectsManager.startChangeDirectionListener(this);
             this.gameObjectsManager.movePlayer(this.player);
