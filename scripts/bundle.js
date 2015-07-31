@@ -1002,7 +1002,7 @@ module.exports = function () {
 
     playButton.addEventListener('click', onClickPlayButton);
 }
-},{"./initializator.js":22,"./mainEngine.js":23}],3:[function(require,module,exports){
+},{"./initializator.js":26,"./mainEngine.js":27}],3:[function(require,module,exports){
 module.exports = (function (parent) {
     var circle = Object.create(parent),
         validator = require('./validator.js');
@@ -1029,7 +1029,7 @@ module.exports = (function (parent) {
     return circle;
 }(require('./game-object.js')));
 
-},{"./game-object.js":20,"./validator.js":30}],4:[function(require,module,exports){
+},{"./game-object.js":24,"./validator.js":34}],4:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -1254,7 +1254,9 @@ module.exports = (function (parent) {
 
     return game1ObjectsManager;
 }(require('./game-object-manager.js')));
-},{"./constants.js":4,"./game-object-manager.js":19,"sat":1}],6:[function(require,module,exports){
+},{"./constants.js":4,"./game-object-manager.js":23,"sat":1}],6:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"./constants.js":4,"./game-object-manager.js":23,"dup":5,"sat":1}],7:[function(require,module,exports){
 module.exports = (function (parent) {
     var game1Renderer = Object.create(parent),
         constants = require('./constants.js'),
@@ -1307,7 +1309,7 @@ module.exports = (function (parent) {
 
     return game1Renderer;
 }(require('./renderer.js')));
-},{"./circle.js":3,"./constants.js":4,"./renderer.js":27}],7:[function(require,module,exports){
+},{"./circle.js":3,"./constants.js":4,"./renderer.js":31}],8:[function(require,module,exports){
 module.exports = (function (parent) {
     var game1 = Object.create(parent);
 
@@ -1348,7 +1350,7 @@ module.exports = (function (parent) {
 
     return game1;
 }(require('./game.js')));
-},{"./game.js":21}],8:[function(require,module,exports){
+},{"./game.js":25}],9:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2ObjectsManager = Object.create(parent),
         sat = require('sat'),
@@ -1479,7 +1481,9 @@ module.exports = (function (parent) {
 
     return game2ObjectsManager;
 }(require('./game-object-manager.js')));
-},{"./constants.js":4,"./game-object-manager.js":19,"sat":1}],9:[function(require,module,exports){
+},{"./constants.js":4,"./game-object-manager.js":23,"sat":1}],10:[function(require,module,exports){
+arguments[4][9][0].apply(exports,arguments)
+},{"./constants.js":4,"./game-object-manager.js":23,"dup":9,"sat":1}],11:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2Renderer = Object.create(parent),
         constants = require('./constants.js'),
@@ -1576,7 +1580,7 @@ module.exports = (function (parent) {
 
     return game2Renderer;
 }(require('./renderer.js')));
-},{"./constants.js":4,"./renderer.js":27,"./triangle.js":29}],10:[function(require,module,exports){
+},{"./constants.js":4,"./renderer.js":31,"./triangle.js":33}],12:[function(require,module,exports){
 module.exports = (function (parent) {
     var game2 = Object.create(parent);
     
@@ -1595,7 +1599,7 @@ module.exports = (function (parent) {
 
     return game2;
 }(require('./game.js')));
-},{"./game.js":21}],11:[function(require,module,exports){
+},{"./game.js":25}],13:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3ObjectsManager = Object.create(parent),
         sat = require('sat'),
@@ -1695,7 +1699,9 @@ module.exports = (function (parent) {
 
     return game3ObjectsManager;
 }(require('./game-object-manager.js')));
-},{"./constants.js":4,"./game-object-factory.js":18,"./game-object-manager.js":19,"sat":1}],12:[function(require,module,exports){
+},{"./constants.js":4,"./game-object-factory.js":22,"./game-object-manager.js":23,"sat":1}],14:[function(require,module,exports){
+arguments[4][13][0].apply(exports,arguments)
+},{"./constants.js":4,"./game-object-factory.js":22,"./game-object-manager.js":23,"dup":13,"sat":1}],15:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3Renderer = Object.create(parent),
         constants = require('./constants.js'),
@@ -1730,7 +1736,7 @@ module.exports = (function (parent) {
     return game3Renderer;
 }(require('./renderer.js')));
 
-},{"./constants.js":4,"./renderer.js":27}],13:[function(require,module,exports){
+},{"./constants.js":4,"./renderer.js":31}],16:[function(require,module,exports){
 module.exports = (function (parent) {
     var game3 = Object.create(parent);
     
@@ -1759,7 +1765,7 @@ module.exports = (function (parent) {
     return game3;
 }(require('./game.js')));
 
-},{"./game.js":21}],14:[function(require,module,exports){
+},{"./game.js":25}],17:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4ObjectsManager = Object.create(parent),
         sat = require('sat'),
@@ -1923,7 +1929,9 @@ module.exports = (function (parent) {
 
     return game4ObjectsManager;
 }(require('./game-object-manager.js')));
-},{"./constants.js":4,"./game-object-factory.js":18,"./game-object-manager.js":19,"sat":1}],15:[function(require,module,exports){
+},{"./constants.js":4,"./game-object-factory.js":22,"./game-object-manager.js":23,"sat":1}],18:[function(require,module,exports){
+arguments[4][17][0].apply(exports,arguments)
+},{"./constants.js":4,"./game-object-factory.js":22,"./game-object-manager.js":23,"dup":17,"sat":1}],19:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4Renderer = Object.create(parent),
         constants = require('./constants.js'),
@@ -1972,7 +1980,7 @@ module.exports = (function (parent) {
 
     return game4Renderer;
 }(require('./renderer.js')));
-},{"./constants.js":4,"./rectangle-with-text.js":25,"./renderer.js":27}],16:[function(require,module,exports){
+},{"./constants.js":4,"./rectangle-with-text.js":29,"./renderer.js":31}],20:[function(require,module,exports){
 module.exports = (function (parent) {
     var game4 = Object.create(parent);
     
@@ -1991,7 +1999,7 @@ module.exports = (function (parent) {
 
     return game4;
 }(require('./game.js')));
-},{"./game.js":21}],17:[function(require,module,exports){
+},{"./game.js":25}],21:[function(require,module,exports){
 module.exports = (function() {
     var gameError = {
         NotImplementedError: function (message) {
@@ -2004,7 +2012,7 @@ module.exports = (function() {
 
     return gameError;
 }());
-},{}],18:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = (function () {
     var rectangle = require('./rectangle.js'),
         rectangleWithText = require('./rectangle-with-text.js'),
@@ -2040,7 +2048,7 @@ module.exports = (function () {
         }
     };
 }());
-},{"./circle.js":3,"./rectangle-with-text.js":25,"./rectangle.js":26,"./triangle.js":29,"sat":1}],19:[function(require,module,exports){
+},{"./circle.js":3,"./rectangle-with-text.js":29,"./rectangle.js":30,"./triangle.js":33,"sat":1}],23:[function(require,module,exports){
 module.exports = (function() {
     var gameObjectManager = {},
         validator = require('./validator.js'),
@@ -2070,7 +2078,7 @@ module.exports = (function() {
 
     return gameObjectManager;
 }());
-},{"./triangle.js":29,"./validator.js":30}],20:[function(require,module,exports){
+},{"./triangle.js":33,"./validator.js":34}],24:[function(require,module,exports){
 //TODO: make a gameObjectFactory
 module.exports = (function () {
     var gameObject = {},
@@ -2157,7 +2165,7 @@ module.exports = (function () {
 
     return gameObject;
 }());
-},{"./validator.js":30}],21:[function(require,module,exports){
+},{"./validator.js":34}],25:[function(require,module,exports){
 module.exports = (function () {
     var game = {},
         validator = require('./validator.js');
@@ -2237,7 +2245,7 @@ module.exports = (function () {
 
     return game;
 }());
-},{"./validator.js":30}],22:[function(require,module,exports){
+},{"./validator.js":34}],26:[function(require,module,exports){
 module.exports = (function () {
     var constants = require('./constants.js'),
         game1Prototype = require('./game-1.js'),
@@ -2249,10 +2257,10 @@ module.exports = (function () {
         game2RendererProto = require('./game-2-renderer.js'),
         game3RendererProto = require('./game-3-renderer.js'),
         game4RendererProto = require('./game-4-renderer.js'),
-        game1ObjectsManagerProto = require('./game-1-Objects-Manager.js'),        
-        game2ObjectsManagerProto = require('./game-2-Objects-Manager.js'),
-        game3ObjectsManagerProto = require('./game-3-Objects-Manager.js'),
-        game4ObjectsManagerProto = require('./game-4-Objects-Manager.js'),
+        game1ObjectsManagerProto = require('./game-1-objects-manager.js'),
+        game2ObjectsManagerProto = require('./game-2-objects-manager.js'),
+        game3ObjectsManagerProto = require('./game-3-objects-manager.js'),
+        game4ObjectsManagerProto = require('./game-4-objects-manager.js'),
         player = require('./player.js');
 
     function initializeGame1() {
@@ -2340,7 +2348,7 @@ module.exports = (function () {
         }
     };
 }());
-},{"./constants.js":4,"./game-1-Objects-Manager.js":5,"./game-1-renderer.js":6,"./game-1.js":7,"./game-2-Objects-Manager.js":8,"./game-2-renderer.js":9,"./game-2.js":10,"./game-3-Objects-Manager.js":11,"./game-3-renderer.js":12,"./game-3.js":13,"./game-4-Objects-Manager.js":14,"./game-4-renderer.js":15,"./game-4.js":16,"./game-object-factory.js":18,"./player.js":24}],23:[function(require,module,exports){
+},{"./constants.js":4,"./game-1-objects-manager.js":6,"./game-1-renderer.js":7,"./game-1.js":8,"./game-2-objects-manager.js":10,"./game-2-renderer.js":11,"./game-2.js":12,"./game-3-objects-manager.js":14,"./game-3-renderer.js":15,"./game-3.js":16,"./game-4-objects-manager.js":18,"./game-4-renderer.js":19,"./game-4.js":20,"./game-object-factory.js":22,"./player.js":28}],27:[function(require,module,exports){
 module.exports = (function () {    
     var engine = {},
         games,
@@ -2406,7 +2414,7 @@ module.exports = (function () {
 
     return engine;
 }());
-},{"./application.js":2}],24:[function(require,module,exports){
+},{"./application.js":2}],28:[function(require,module,exports){
 module.exports = (function() {
     var player = {},
         validator = require('./validator.js');
@@ -2442,7 +2450,7 @@ module.exports = (function() {
 
     return player;
 }());
-},{"./validator.js":30}],25:[function(require,module,exports){
+},{"./validator.js":34}],29:[function(require,module,exports){
 module.exports = (function(parent) {
     var rectangleWithText = Object.create(parent),
         validator = require('./validator.js');
@@ -2468,7 +2476,7 @@ module.exports = (function(parent) {
 
     return rectangleWithText;
 }(require('./rectangle.js')));
-},{"./rectangle.js":26,"./validator.js":30}],26:[function(require,module,exports){
+},{"./rectangle.js":30,"./validator.js":34}],30:[function(require,module,exports){
 module.exports = (function (parent) {
     var rectangle = Object.create(parent),
         validator = require('./validator.js');
@@ -2520,7 +2528,7 @@ module.exports = (function (parent) {
 
     return rectangle;
 }(require('./game-object.js')));
-},{"./game-object.js":20,"./validator.js":30}],27:[function(require,module,exports){
+},{"./game-object.js":24,"./validator.js":34}],31:[function(require,module,exports){
 module.exports = (function() {
     var renderer = {},
         gameError = require('./game-errors.js');
@@ -2539,10 +2547,10 @@ module.exports = (function() {
 
     return renderer;
 }());
-},{"./game-errors.js":17}],28:[function(require,module,exports){
+},{"./game-errors.js":21}],32:[function(require,module,exports){
 var run = require('./application.js');
 run();
-},{"./application.js":2}],29:[function(require,module,exports){
+},{"./application.js":2}],33:[function(require,module,exports){
 module.exports = (function (parent) {
     var triangle = Object.create(parent),
         validator = require('./validator.js');
@@ -2629,7 +2637,7 @@ module.exports = (function (parent) {
     return triangle;
 }(require('./game-object.js')));
 
-},{"./game-object.js":20,"./validator.js":30}],30:[function(require,module,exports){
+},{"./game-object.js":24,"./validator.js":34}],34:[function(require,module,exports){
 module.exports = (function () {
     var validator = {},
         CONSTANTS = require('./constants.js');
@@ -2771,4 +2779,4 @@ module.exports = (function () {
 
     return validator;
 }());
-},{"./constants.js":4,"./game-object.js":20,"./player.js":24,"./renderer.js":27,"sat":1}]},{},[4,17,30,20,3,29,26,25,18,24,27,6,9,12,15,11,21,7,10,13,16,22,2,28,23,5,8,14]);
+},{"./constants.js":4,"./game-object.js":24,"./player.js":28,"./renderer.js":31,"sat":1}]},{},[4,21,34,24,3,33,30,29,22,28,31,7,11,15,19,5,9,13,17,25,8,12,16,20,26,27,2,32]);
