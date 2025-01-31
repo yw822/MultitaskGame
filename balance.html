@@ -7,13 +7,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/kineticjs/5.2.0/kinetic.min.js"></script>
 </head>
 <body>
-    <div id="game-1" class="game-table-cell"></div>
+    <h2 style="text-align:center;">Balancing the Ball on a Lath</h2>
+    <div id="game-container">
+        <div id="game-1"></div>
+    </div>
     <script src="scripts/bundle.js"></script>
     <script>
-        // Directly initialize Game 1 (Balancing the Ball)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Assuming bundle.js has a function to initialize games
-            initializeGame1(); // Replace with the actual function name if different
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof initializeGame1 === "function") {
+                initializeGame1(); // Ensure this function exists in bundle.js
+            } else {
+                console.error("Game 1 initialization function is missing!");
+            }
         });
     </script>
 </body>
