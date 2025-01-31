@@ -7,15 +7,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/kineticjs/5.2.0/kinetic.min.js"></script>
 </head>
 <body>
-    <div id="game-2" class="game-table-cell">
-        <svg xmlns="http://www.w3.org/2000/svg" id="the-svg" width="300" height="200"></svg>
+    <h2 style="text-align:center;">Climbing the Ladder to Avoid Arrows</h2>
+    <div id="game-container">
+        <div id="game-2"></div>
     </div>
     <script src="scripts/bundle.js"></script>
     <script>
-        // Directly initialize Game 2 (Climbing Ladder)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Assuming bundle.js has a function to initialize games
-            initializeGame2(); // Replace with the actual function name if different
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof initializeGame2 === "function") {
+                initializeGame2(); // Ensure this function exists in bundle.js
+            } else {
+                console.error("Game 2 initialization function is missing!");
+            }
         });
     </script>
 </body>
